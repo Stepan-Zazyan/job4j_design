@@ -6,6 +6,15 @@ import java.util.stream.Collectors;
 public class NameLoad {
     private final Map<String, String> values = new HashMap<>();
 
+
+    public boolean hello(int num) {
+        return num > 5;
+    }
+
+    public void nameMethod(String name) {
+        System.out.println(name);
+    }
+
     public void parse(String... names) {
         if (names.length == 0) {
             throw new IllegalArgumentException("Names array is empty");
@@ -21,7 +30,7 @@ public class NameLoad {
                 )));
     }
 
-    private boolean validate(String name) {
+    public boolean validate(String name) {
         if (!name.contains("=")) {
             throw new IllegalArgumentException(
                     String.format("this name: %s does not contain the symbol \"=\"", name));
