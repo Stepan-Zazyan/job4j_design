@@ -1,6 +1,7 @@
 package ru.job4j.assertj;
 
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.*;
 
 class NameLoadTest {
@@ -12,33 +13,39 @@ class NameLoadTest {
                 .hasMessageContaining("no data");
     }
 
-   /*не узнает метод parse, просит сделать статичным в итоге рушатся поля,
-    ипользуемые в методе, да и не в этом решение.. думаю*/
     @Test
     void checkParseEmptyName() {
         String[] ar = {};
-        assertThatThrownBy(NameLoad.parse(ar))
+        NameLoad nameLoad = new NameLoad();
+        assertThatThrownBy(() -> nameLoad.parse(ar))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    /*Не видит мой тестовый метод bool,выделяет красным,
-    пришлось вот так изворачивиться. но как это использовать для исключений?*/
     @Test
-    void boolTest() {
-        int num = 6;
-        boolean res = new NameLoad().hello(num);
-        assertThat(res).isTrue();
+    void validateNotContainsEqualSign() {
+        String name = "wp";
+        NameLoad nameLoad = new NameLoad();
+        assertThatThrownBy(() -> nameLoad.validate(name))
+                .isInstanceOf(IllegalArgumentException.class)
+                .message();
     }
 
-   /*При обычной подстановке  assertThatThrownBy(validate(name))
-    получаем cannot resolve method validate..почему?
-    вот такое тоже не получается, required & provided не сходятся.*/
     @Test
-    void validateContains() {
-        String name = "w=p";
-        Exception ex = new IllegalStateException();
-        assertThatThrownBy(ex)
-                .isInstanceOf(IllegalStateException.class);
+    void validateStartsWithEqualSign() {
+        String name = "=w";
+        NameLoad nameLoad = new NameLoad();
+        assertThatThrownBy(() -> nameLoad.validate(name))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("does not contain a key");
+    }
+
+    @Test
+    void validateIndexEqualSignNameEqualsLength() {
+        String name = "12=";
+        NameLoad nameLoad = new NameLoad();
+        assertThatThrownBy(() -> nameLoad.validate(name))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("does not contain a value");
     }
 
 }
