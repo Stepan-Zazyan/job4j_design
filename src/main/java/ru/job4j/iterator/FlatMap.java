@@ -10,7 +10,7 @@ public class FlatMap<T> implements Iterator<T> {
         this.data = data;
     }
 
-    // вернуть итератор был меньше последнего числа в массиве
+
     @Override
     public boolean hasNext() {
         while (data.hasNext() && !cursor.hasNext()) {

@@ -89,4 +89,15 @@ class SimpleLinkedListTest {
         assertThat(second.next()).isEqualTo(2);
         assertThat(second.hasNext()).isFalse();
     }
+
+    @Test
+    void whenAndAndGetByIncorrectIndexThenGetException() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<Integer>();
+        list.add(5);
+        list.add(5);
+        list.add(5);
+        assertThatThrownBy(() -> list.get(3))
+                .isInstanceOf(IndexOutOfBoundsException.class);
+    }
+
 }
