@@ -10,7 +10,9 @@ public class FlatMap<T> implements Iterator<T> {
         this.data = data;
     }
 
-
+/**
+*Коммент в стиле Javadoc
+ */
     @Override
     public boolean hasNext() {
         while (data.hasNext() && !cursor.hasNext()) {
