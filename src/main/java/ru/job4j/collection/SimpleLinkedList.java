@@ -5,6 +5,7 @@ import java.util.*;
 public class SimpleLinkedList<E> implements LinkedList<E> {
 
     private Node<E> head;
+    int size = 1;
 
     @Override
     public void add(E value) {
@@ -18,18 +19,17 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
             tail = tail.next;
         }
         tail.next = node;
+        size++;
     }
 
     @Override
     public E get(int index) {
+        Objects.checkIndex(index, size);
         Node<E> tail = head;
         int counter = 0;
         while (counter < index) {
             tail = tail.next;
             counter++;
-            if (tail == null) {
-                throw new IndexOutOfBoundsException();
-            }
         }
         return tail.item;
     }
