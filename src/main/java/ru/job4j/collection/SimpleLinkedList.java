@@ -5,13 +5,16 @@ import java.util.*;
 public class SimpleLinkedList<E> implements LinkedList<E> {
 
     private Node<E> head;
-    int size = 1;
+    private int size = 0;
+
+    private int modCount = 0;
 
     @Override
     public void add(E value) {
         Node<E> node = new Node<E>(value, null);
         if (head == null) {
             head = node;
+            size++;
             return;
         }
         Node<E> tail = head;
@@ -20,6 +23,7 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
         }
         tail.next = node;
         size++;
+        modCount++;
     }
 
     @Override
@@ -36,11 +40,15 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
 
     @Override
     public Iterator<E> iterator() {
+        int expectedModCount = modCount;
         return new Iterator<E>() {
             Node<E> node = head;
 
             @Override
             public boolean hasNext() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 return node != null;
             }
 
