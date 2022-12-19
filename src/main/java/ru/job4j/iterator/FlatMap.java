@@ -11,6 +11,7 @@ public class FlatMap<T> implements Iterator<T> {
     }
 
 /**
+ * Исправил некорректные комменты
 *Коммент в стиле Javadoc
  */
     @Override
