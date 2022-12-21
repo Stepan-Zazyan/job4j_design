@@ -3,7 +3,6 @@ package ru.job4j.assertj;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,18 +38,18 @@ class SimpleConvertTest {
                     assertThat(t.length()).isGreaterThan(5);
                 })
                 .allMatch(t -> t.length() > 3)
-                .anyMatch(t-> t.contains("e"))
-                .noneMatch((t->t.startsWith("q")));
+                .anyMatch(t -> t.contains("e"))
+                .noneMatch((t -> t.startsWith("q")));
     }
 
     @Test
     void checkSet() {
         SimpleConvert sc = new SimpleConvert();
         Set<String> set = sc.toSet("first", "second", "three", "four", "five");
-    assertThat(set).filteredOn(t->t.length() > 5).first().isEqualTo("second");
-    assertThat(set).filteredOnAssertions(t-> assertThat(t.length()).isLessThan(5))
-            .hasSize(2)
-            .first().isEqualTo("four");
+        assertThat(set).filteredOn(t -> t.length() > 5).first().isEqualTo("second");
+        assertThat(set).filteredOnAssertions(t -> assertThat(t.length()).isLessThan(5))
+                .hasSize(2)
+                .first().isEqualTo("four");
     }
 
     @Test
