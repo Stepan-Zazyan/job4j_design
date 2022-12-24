@@ -14,7 +14,7 @@ class RoleStoreTest {
     roleStore.add(role);
     Role result = roleStore.findById("1");
 /*    assertThat(result.getRolename()).isEqualTo("Actor");*/
-assertEquals(result.getRolename(),"Actor" );
+assertEquals(result.getRolename(), "Actor");
     }
 
     @Test
