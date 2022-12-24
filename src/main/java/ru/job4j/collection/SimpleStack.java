@@ -3,42 +3,13 @@ package ru.job4j.collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
-public class ForwardLinked<T> implements LinkedList<T> {
+public class SimpleStack<T> {
     private Node<T> head;
     private int size = 0;
     private int modCount = 0;
 
-    public void add(T value) {
-        Node<T> node = new Node<T>(value, null);
-        if (head == null) {
-            head = node;
-            size++;
-            return;
-        }
-        Node<T> tail = head;
-        while (tail.next != null) {
-            tail = tail.next;
-        }
-        tail.next = node;
-        size++;
-        modCount++;
-    }
-
-    @Override
-    public T get(int index) {
-        Objects.checkIndex(index, size);
-        Node<T> tail = head;
-        int counter = 0;
-        while (counter < index) {
-            tail = tail.next;
-            counter++;
-        }
-        return tail.item;
-    }
-
-    public T deleteFirst() {
+    public T pop() {
         if (head == null) {
             throw new NoSuchElementException();
         }
@@ -48,8 +19,7 @@ public class ForwardLinked<T> implements LinkedList<T> {
         return value;
     }
 
-    @Override
-    public void addFirst(T value) {
+    public void push(T value) {
         if (head == null) {
             head = new Node<T>(value, null);
         }
@@ -59,7 +29,6 @@ public class ForwardLinked<T> implements LinkedList<T> {
         modCount++;
     }
 
-    @Override
     public Iterator<T> iterator() {
         int expectedModCount = modCount;
         return new Iterator<T>() {
@@ -85,4 +54,3 @@ public class ForwardLinked<T> implements LinkedList<T> {
         };
     }
 }
-

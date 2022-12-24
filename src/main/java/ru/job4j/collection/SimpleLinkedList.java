@@ -44,6 +44,12 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
     }
 
     @Override
+    public void addFirst(E value) {
+
+    }
+
+
+    @Override
     public Iterator<E> iterator() {
         int expectedModCount = modCount;
         return new Iterator<E>() {

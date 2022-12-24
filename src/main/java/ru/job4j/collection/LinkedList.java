@@ -6,4 +6,6 @@ public interface LinkedList<E> extends Iterable<E> {
     E get(int index);
 
     E deleteFirst();
+
+    void addFirst(E value);
 }
