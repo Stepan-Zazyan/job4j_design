@@ -9,24 +9,27 @@ public class SimpleStack<T> {
     private int size = 0;
     private int modCount = 0;
 
+    private ForwardLinked<T> linked = new ForwardLinked<T>();
+
     public T pop() {
-        if (head == null) {
-            throw new NoSuchElementException();
-        }
-        T value = head.item;
-        head = head.next;
-        modCount++;
-        return value;
+       return linked.deleteFirst();
     }
 
     public void push(T value) {
         if (head == null) {
             head = new Node<T>(value, null);
+        } else {
+            //сохранил текущий ук
+            Node<T> currentHead = head;
+            //иниц значение
+            head.item = value;
+            //иниц ссылку на след ноду
+            head.next = head;
+            //переместил указатель
+            head = new Node<T>(value, currentHead);
         }
-        Node<T> afterHead = head;
-        head.item = value;
-        head.next = afterHead;
         modCount++;
+        size++;
     }
 
     public Iterator<T> iterator() {

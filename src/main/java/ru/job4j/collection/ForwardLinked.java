@@ -43,8 +43,12 @@ public class ForwardLinked<T> implements LinkedList<T> {
             throw new NoSuchElementException();
         }
         T value = head.item;
-        head = head.next;
+        Node<T> afterHead = head.next;
+        head.item = null;
+        head.next = null;
+        head = afterHead;
         modCount++;
+        size--;
         return value;
     }
 
@@ -57,6 +61,7 @@ public class ForwardLinked<T> implements LinkedList<T> {
         head.item = value;
         head.next = afterHead;
         modCount++;
+        size++;
     }
 
     @Override
