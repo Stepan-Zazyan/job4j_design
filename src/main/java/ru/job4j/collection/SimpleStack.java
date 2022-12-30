@@ -6,35 +6,21 @@ import java.util.NoSuchElementException;
 
 public class SimpleStack<T> {
     private Node<T> head;
-    private int size = 0;
     private int modCount = 0;
 
-    private ForwardLinked<T> linked = new ForwardLinked<T>();
+    private final ForwardLinked<T> linked = new ForwardLinked<>();
 
     public T pop() {
-       return linked.deleteFirst();
+        return linked.deleteFirst();
     }
 
     public void push(T value) {
-        if (head == null) {
-            head = new Node<T>(value, null);
-        } else {
-            //сохранил текущий ук
-            Node<T> currentHead = head;
-            //иниц значение
-            head.item = value;
-            //иниц ссылку на след ноду
-            head.next = head;
-            //переместил указатель
-            head = new Node<T>(value, currentHead);
-        }
-        modCount++;
-        size++;
+        linked.addFirst(value);
     }
 
     public Iterator<T> iterator() {
         int expectedModCount = modCount;
-        return new Iterator<T>() {
+        return new Iterator<>() {
             Node<T> node = head;
 
             @Override

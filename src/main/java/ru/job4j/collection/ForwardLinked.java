@@ -11,7 +11,7 @@ public class ForwardLinked<T> implements LinkedList<T> {
     private int modCount = 0;
 
     public void add(T value) {
-        Node<T> node = new Node<T>(value, null);
+        Node<T> node = new Node<>(value, null);
         if (head == null) {
             head = node;
             size++;
@@ -55,11 +55,12 @@ public class ForwardLinked<T> implements LinkedList<T> {
     @Override
     public void addFirst(T value) {
         if (head == null) {
-            head = new Node<T>(value, null);
+            head = new Node<>(value, null);
+        } else {
+            Node<T> newHead = new Node<>(value, null);
+            newHead.next = head;
+            head = newHead;
         }
-        Node<T> afterHead = head;
-        head.item = value;
-        head.next = afterHead;
         modCount++;
         size++;
     }
@@ -67,7 +68,7 @@ public class ForwardLinked<T> implements LinkedList<T> {
     @Override
     public Iterator<T> iterator() {
         int expectedModCount = modCount;
-        return new Iterator<T>() {
+        return new Iterator<>() {
             Node<T> node = head;
 
             @Override
