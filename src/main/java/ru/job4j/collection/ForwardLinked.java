@@ -57,9 +57,7 @@ public class ForwardLinked<T> implements LinkedList<T> {
         if (head == null) {
             head = new Node<>(value, null);
         } else {
-            Node<T> newHead = new Node<>(value, null);
-            newHead.next = head;
-            head = newHead;
+            head = new Node<>(value, head);
         }
         modCount++;
         size++;
