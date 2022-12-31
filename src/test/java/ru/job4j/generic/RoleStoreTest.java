@@ -3,7 +3,6 @@ package ru.job4j.generic;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class RoleStoreTest {
 
@@ -13,8 +12,7 @@ class RoleStoreTest {
     Role role = new Role("1", "Actor");
     roleStore.add(role);
     Role result = roleStore.findById("1");
-/*    assertThat(result.getRolename()).isEqualTo("Actor");*/
-assertEquals(result.getRolename(), "Actor");
+    assertThat(result.getRolename()).isEqualTo("Actor");
     }
 
     @Test
