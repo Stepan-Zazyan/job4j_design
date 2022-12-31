@@ -33,7 +33,7 @@ public final class MemStore<T extends Base> implements Store<T> {
     /**
      * /
      *
-     * В этом методе использовал тернарный оператор для лучшей читаемости кода
+     * В этом методе использовал тернарный оператор для лучшей читаемости кода!
      */
     @Override
     public T findById(String id) {
