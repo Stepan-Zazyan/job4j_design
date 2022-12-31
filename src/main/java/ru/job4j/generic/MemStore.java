@@ -30,6 +30,11 @@ public final class MemStore<T extends Base> implements Store<T> {
         return true;
     }
 
+    /**
+     * /
+     *
+     * В этом методе использовал тернарный оператор для лучшей читаемости кода
+     */
     @Override
     public T findById(String id) {
         return storage.get(id) == null ? null : storage.get(id);
