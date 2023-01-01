@@ -38,6 +38,35 @@ public class ForwardLinked<T> implements LinkedList<T> {
         return tail.item;
     }
 
+    /**
+     * сохраняем главный указатель первого элемента
+     * Сохраняем указатель на последующий элемент
+     * меняем указатель первого элемента на null
+     * передвигаем главный указатель на последующий элемент
+     * сохраняем указатель на последующий элемент
+     * последующий элемент должен указывать на предыдущий
+     * Если последующий элемент не null повторить
+     */
+    public boolean revert() {
+        if (head.next == null) {
+            return false;
+        }
+        Node<T> futherNext = head.next;
+        int count = 0;
+        while (futherNext != null) {
+            count++;
+            Node<T> current = head;
+            Node<T> currentNext = futherNext;
+            if (count == 1) {
+                head.next = null;
+            }
+            head = currentNext;
+            futherNext = head.next;
+            head.next = current;
+        }
+        return true;
+    }
+
     public T deleteFirst() {
         if (head == null) {
             throw new NoSuchElementException();
