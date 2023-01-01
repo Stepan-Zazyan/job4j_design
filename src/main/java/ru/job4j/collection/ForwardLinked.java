@@ -48,7 +48,7 @@ public class ForwardLinked<T> implements LinkedList<T> {
      * Если последующий элемент не null повторить
      */
     public boolean revert() {
-        if (head.next == null) {
+        if (size == 1 || size == 0) {
             return false;
         }
         Node<T> futherNext = head.next;
