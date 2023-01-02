@@ -48,23 +48,23 @@ public class ForwardLinked<T> implements LinkedList<T> {
      * Если последующий элемент не null повторить
      */
     public boolean revert() {
-        if (size == 1 || size == 0) {
-            return false;
-        }
-        Node<T> futherNext = head.next;
-        int count = 0;
-        while (futherNext != null) {
-            count++;
-            Node<T> current = head;
-            Node<T> currentNext = futherNext;
-            if (count == 1) {
-                head.next = null;
+        boolean rsl = size != 1 && size != 0;
+        if (rsl) {
+            Node<T> futherNext = head.next;
+            int count = 0;
+            while (futherNext != null) {
+                count++;
+                Node<T> current = head;
+                Node<T> currentNext = futherNext;
+                if (count == 1) {
+                    head.next = null;
+                }
+                head = currentNext;
+                futherNext = head.next;
+                head.next = current;
             }
-            head = currentNext;
-            futherNext = head.next;
-            head.next = current;
         }
-        return true;
+        return rsl;
     }
 
     public T deleteFirst() {
