@@ -13,7 +13,7 @@ public class ListUtils {
 
     public static <T> void addAfter(List<T> list, int index, T value) {
         Objects.checkIndex(index, list.size());
-        list.listIterator(index).add(value);
+        list.listIterator(index + 1).add(value);
     }
 
     public static <T> void removeIf(List<T> list, Predicate<T> filter) {
@@ -38,7 +38,6 @@ public class ListUtils {
     }
 
     public static <T> void removeAll(List<T> list, List<T> elements) {
-        Predicate<T> predicate = s -> list.contains(elements);
-        removeIf(list, predicate);
+        removeIf(list, elements::contains);
     }
 }
