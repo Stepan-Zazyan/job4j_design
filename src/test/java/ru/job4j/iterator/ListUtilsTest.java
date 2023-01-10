@@ -60,10 +60,10 @@ class ListUtilsTest {
 
     @Test
     void whenRemoveAll() {
-        input = new ArrayList<>(Arrays.asList(3, 1, 3));
+        input = new ArrayList<>(Arrays.asList(3, 1, 4, 3, 6));
         List<Integer> list = List.of(2, 3, 4, 5);
         ListUtils.removeAll(input, list);
-        assertThat(input).containsSequence(1);
+        assertThat(input).containsSequence(1, 6);
     }
 
 }
