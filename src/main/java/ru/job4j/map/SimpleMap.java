@@ -20,63 +20,52 @@ public class SimpleMap<K, V> implements Map<K, V> {
         if (capacity * LOAD_FACTOR < count) {
             expand();
         }
-        boolean rsl = true;
-        for (MapEntry<K, V> x : table) {
-            if (x.key == key) {
-                rsl = false;
-                break;
-            }
+        boolean rsl = false;
+        int i = Objects.hash(key.hashCode()) & (capacity - 1);
+        if (Objects.equals(table[i], null)) {
+            rsl = true;
+            table[i] = new MapEntry<>(key, value);
+            count++;
+            modCount++;
         }
-        if (rsl) {
-            for (MapEntry<K, V> entry : table) {
-                if (entry.key == null) {
-                    entry.value = value;
-                    entry.key = key;
-                }
-            }
-        }
-        count++;
-        modCount++;
         return rsl;
     }
 
     private int hash(int hashCode) {
-        return Objects.hash(hashCode);
+
+        return hashCode ^ (hashCode >>> 16);
     }
 
     private int indexFor(int hash) {
-        return hash(hash) & (capacity - 1);
+        return hash & (capacity - 1);
     }
 
     private void expand() {
-        if (table.length == 0) {
-            table = Arrays.copyOf(table, table.length + 1);
-        } else {
-            table = Arrays.copyOf(table, table.length * 2);
+        capacity *= 2;
+        MapEntry<K, V>[] newTable = new MapEntry[capacity];
+        for (int i = 0; i < count; i++) {
+            int h = table[i].value.hashCode();
+            newTable[Objects.hash(h) & (capacity - 1)] = table[i];
         }
+        table = newTable.clone();
     }
 
     @Override
     public V get(K key) {
-        V value = null;
-        for (MapEntry<K, V> entry : table) {
-            if (entry.key == key) {
-                value = entry.value;
-            }
-        }
+        int i = Objects.hash(key.hashCode()) & (capacity - 1);
+        V value = table[i].value;
         return value;
     }
 
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
-        for (MapEntry<K, V> entry : table) {
-            if (entry.key == key) {
-                entry.value = null;
-                entry.key = null;
-                rsl = true;
-                count--;
-            }
+        int i = Objects.hash(key.hashCode()) & (capacity - 1);
+        if (table[i].key == key) {
+            table[i].value = null;
+            table[i].key = null;
+            rsl = true;
+            count--;
         }
         modCount++;
         return rsl;
@@ -93,7 +82,16 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return count < capacity;
+                boolean rsl = false;
+                count = 1;
+                while (count < capacity) {
+                    if (table[count].key == null) {
+                        count++;
+                    } else {
+                        rsl = true;
+                    }
+                }
+                return rsl;
             }
 
             @Override
@@ -110,6 +108,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
         K key;
         V value;
+
+        public MapEntry() {
+        }
 
         public MapEntry(K key, V value) {
             this.key = key;
