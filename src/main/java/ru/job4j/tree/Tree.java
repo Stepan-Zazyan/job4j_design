@@ -14,9 +14,8 @@ public interface Tree<E> {
         final E value;
         List<Node<E>> children = new ArrayList<>();
 
-        public Node(E value, List<Node<E>> children) {
+        public Node(E value) {
             this.value = value;
-            this.children = children;
         }
     }
 }
