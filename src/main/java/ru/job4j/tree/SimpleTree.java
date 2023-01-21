@@ -15,29 +15,40 @@ public class SimpleTree<E> implements Tree<E> {
 /*      Optional<Node<E>> ch = Optional.of(new Node<>(child));
         Optional<Node<E>> par = Optional.of(new Node<>(parent));
         Optional<Node<E>> parFindBy = findBy(parent);*/
-        Node<E> parFind = findBy(parent).get();
 /*        Node<E> childFind = null;
         if (findBy(child).isPresent()) {
             childFind = findBy(child).get();
+        }
+        Node<E> parFind = null;
+        if (findBy(parent).isPresent()) {
+            parFind = findBy(parent).get();
         }*/
        /* проверить, что в дереве существует узел со значением parent
         и при этом отсутствует узел child.
         Если эти условия выполняются,
         то в список потомков к узлу parent добавьте узел child.*/
-        if ((Objects.equals(parFind.value, parent)
-                && !root.children.contains(new Node<>(child)))) {
-            root.children.add(new Node<>(child));
+        Optional<Node<E>> parentNode = findBy(parent);
+        Optional<Node<E>> childNode = findBy(child);
+        if (parentNode.isPresent() && childNode.isEmpty()) {
+            parent.children.add(new Node<>(child));
             rsl = true;
         }
+/*if ((Objects.equals(parFind.value, parent)
+                && !(Objects.equals(parFind.value, parent)))) {
+            parent.children.add(new Node<>(child));
+            rsl = true;
+        }*/
         /*Если в root.children в потомках пэрента уже есть вставляемый пэрент,
         тогда этот child становится parent и к нему в его список добавить
         добавляемый child. как к элементы в root.children добавить список, т.е.
-        сделать его parent,*/
+        сделать его parent*/
+/*
         if (root.children.contains(new Node<>(parent))) {
             SimpleTree<E> pr = new SimpleTree<E>(parent);
             pr.children.add(new Node<>(child));
             rsl = true;
         }
+*/
 
         return rsl;
     }
