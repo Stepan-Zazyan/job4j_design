@@ -21,8 +21,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
             expand();
         }
         boolean rsl = false;
-        int i = Objects.hash(Objects.hashCode(key)) & (capacity - 1);
-        if (Objects.equals(table[i], null)) {
+        int i = indexFor(hash(Objects.hashCode(key)));
+        if (Objects.isNull(table[i])) {
             rsl = true;
             table[i] = new MapEntry<>(key, value);
             count++;
@@ -43,17 +43,20 @@ public class SimpleMap<K, V> implements Map<K, V> {
         capacity *= 2;
         MapEntry<K, V>[] newTable = new MapEntry[capacity];
         for (int i = 0; i < count; i++) {
-            int h = Objects.hash(Objects.hashCode(table[i].value)) & (capacity - 1);
+            int h = indexFor(hash(Objects.hashCode(table[i].value)));
+            if (table[i] == null) {
+                continue;
+            }
             newTable[h] = table[i];
         }
-        table = newTable.clone();
+        table = newTable;
     }
 
     @Override
     public V get(K key) {
         V value = null;
-        int i = Objects.hash(Objects.hashCode(key)) & (capacity - 1);
-        if (table[i] != null || i == 0) {
+        int i = indexFor(hash(Objects.hashCode(key)));
+        if (Objects.equals(table[i].key, key)) {
             value = table[i].value;
         }
         return value;
@@ -62,17 +65,13 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
-        int i = Objects.hash(Objects.hashCode(key)) & (capacity - 1);
-            if (table[i] != null && table[i].key == key) {
-                table[i].value = null;
-                table[i].key = null;
-                for (int j = i; j > 0; j--) {
-                    table[j] = table[j - 1];
-                }
-                table[0] = null;
-                rsl = true;
-                count--;
-            }
+        int i = indexFor(hash(Objects.hashCode(key)));
+        if (Objects.equals(table[i].key, key)) {
+            table[i].value = null;
+            table[i].key = null;
+            rsl = true;
+            count--;
+        }
         modCount++;
         return rsl;
     }
