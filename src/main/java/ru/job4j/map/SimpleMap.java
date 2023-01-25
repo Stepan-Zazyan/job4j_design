@@ -17,11 +17,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
-        if (capacity * LOAD_FACTOR < count) {
+        if (capacity * LOAD_FACTOR <= count) {
             expand();
         }
         boolean rsl = false;
-        int i = Objects.hash(key.hashCode()) & (capacity - 1);
+        int i = Objects.hash(Objects.hashCode(key)) & (capacity - 1);
         if (Objects.equals(table[i], null)) {
             rsl = true;
             table[i] = new MapEntry<>(key, value);
@@ -32,7 +32,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private int hash(int hashCode) {
-
         return hashCode ^ (hashCode >>> 16);
     }
 
@@ -44,29 +43,36 @@ public class SimpleMap<K, V> implements Map<K, V> {
         capacity *= 2;
         MapEntry<K, V>[] newTable = new MapEntry[capacity];
         for (int i = 0; i < count; i++) {
-            int h = table[i].value.hashCode();
-            newTable[Objects.hash(h) & (capacity - 1)] = table[i];
+            int h = Objects.hash(Objects.hashCode(table[i].value)) & (capacity - 1);
+            newTable[h] = table[i];
         }
         table = newTable.clone();
     }
 
     @Override
     public V get(K key) {
-        int i = Objects.hash(key.hashCode()) & (capacity - 1);
-        V value = table[i].value;
+        V value = null;
+        int i = Objects.hash(Objects.hashCode(key)) & (capacity - 1);
+        if (table[i] != null || i == 0) {
+            value = table[i].value;
+        }
         return value;
     }
 
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
-        int i = Objects.hash(key.hashCode()) & (capacity - 1);
-        if (table[i].key == key) {
-            table[i].value = null;
-            table[i].key = null;
-            rsl = true;
-            count--;
-        }
+        int i = Objects.hash(Objects.hashCode(key)) & (capacity - 1);
+            if (table[i] != null && table[i].key == key) {
+                table[i].value = null;
+                table[i].key = null;
+                for (int j = i; j > 0; j--) {
+                    table[j] = table[j - 1];
+                }
+                table[0] = null;
+                rsl = true;
+                count--;
+            }
         modCount++;
         return rsl;
     }
@@ -82,16 +88,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                boolean rsl = false;
-                count = 1;
-                while (count < capacity) {
-                    if (table[count].key == null) {
-                        count++;
-                    } else {
-                        rsl = true;
-                    }
+                while (count < table.length && table[count] == null) {
+                    count++;
                 }
-                return rsl;
+                return count < table.length;
             }
 
             @Override
