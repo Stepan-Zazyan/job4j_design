@@ -42,21 +42,25 @@ public class SimpleMap<K, V> implements Map<K, V> {
     private void expand() {
         capacity *= 2;
         MapEntry<K, V>[] newTable = new MapEntry[capacity];
-        for (int i = 0; i < count; i++) {
-            int h = indexFor(hash(Objects.hashCode(table[i].value)));
-            if (table[i] == null) {
+        for (MapEntry<K, V> kvMapEntry : table) {
+            if (kvMapEntry == null) {
                 continue;
             }
-            newTable[h] = table[i];
+            int h = indexFor(hash(Objects.hashCode(kvMapEntry.key)));
+            newTable[h] = kvMapEntry;
         }
-        table = newTable;
+        table = new MapEntry[capacity];
+        System.arraycopy(newTable, 0, table, 0, newTable.length);
     }
 
     @Override
     public V get(K key) {
         V value = null;
         int i = indexFor(hash(Objects.hashCode(key)));
-        if (Objects.equals(table[i].key, key)) {
+        if (Objects.nonNull(table[i])
+                && Objects.equals(hash(Objects.hashCode(key)),
+                hash(Objects.hashCode(table[i].key)))
+                && Objects.equals(table[i].key, key)) {
             value = table[i].value;
         }
         return value;
@@ -66,9 +70,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean remove(K key) {
         boolean rsl = false;
         int i = indexFor(hash(Objects.hashCode(key)));
-        if (Objects.equals(table[i].key, key)) {
-            table[i].value = null;
-            table[i].key = null;
+        if (Objects.nonNull(table[i])
+                && Objects.equals(hash(Objects.hashCode(key)),
+                hash(Objects.hashCode(table[i].key)))
+                && Objects.equals(table[i].key, key)) {
+            table[i] = null;
             rsl = true;
             count--;
         }
