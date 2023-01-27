@@ -43,24 +43,20 @@ public class SimpleMap<K, V> implements Map<K, V> {
         capacity *= 2;
         MapEntry<K, V>[] newTable = new MapEntry[capacity];
         for (MapEntry<K, V> kvMapEntry : table) {
-            if (kvMapEntry == null) {
+            if (Objects.isNull(kvMapEntry)) {
                 continue;
             }
             int h = indexFor(hash(Objects.hashCode(kvMapEntry.key)));
             newTable[h] = kvMapEntry;
         }
-        table = new MapEntry[capacity];
-        System.arraycopy(newTable, 0, table, 0, newTable.length);
+        table = newTable;
     }
 
     @Override
     public V get(K key) {
         V value = null;
         int i = indexFor(hash(Objects.hashCode(key)));
-        if (Objects.nonNull(table[i])
-                && Objects.equals(hash(Objects.hashCode(key)),
-                hash(Objects.hashCode(table[i].key)))
-                && Objects.equals(table[i].key, key)) {
+        if (nonNullObjectsCompare(i, key)) {
             value = table[i].value;
         }
         return value;
@@ -70,16 +66,19 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean remove(K key) {
         boolean rsl = false;
         int i = indexFor(hash(Objects.hashCode(key)));
-        if (Objects.nonNull(table[i])
-                && Objects.equals(hash(Objects.hashCode(key)),
-                hash(Objects.hashCode(table[i].key)))
-                && Objects.equals(table[i].key, key)) {
+        if (nonNullObjectsCompare(i, key)) {
             table[i] = null;
             rsl = true;
             count--;
         }
         modCount++;
         return rsl;
+    }
+
+    private boolean nonNullObjectsCompare(int hashIndex, K key) {
+        return Objects.nonNull(table[hashIndex])
+                && Objects.hashCode(key) == Objects.hashCode(table[hashIndex].key)
+                && Objects.equals(table[hashIndex].key, key);
     }
 
     @Override
