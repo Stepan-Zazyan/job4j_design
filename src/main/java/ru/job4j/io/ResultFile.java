@@ -14,7 +14,7 @@ public class ResultFile {
                 out.write(System.lineSeparator().getBytes());
             }
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка доступа к файлу input.txt");
+            throw new RuntimeException("Ошибка доступа к файлу");
         }
     }
 }
