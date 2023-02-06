@@ -1,0 +1,45 @@
+package ru.job4j.io;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.*;
+
+class ConfigTest {
+
+    @Test
+    void whenPairWithoutComment() {
+        String path = "./data/app.properties";
+        Config config = new Config(path);
+        config.load();
+        assertThat(config.value("hibernate.name"))
+                .isEqualTo("Petr Arsentev");
+        assertThat(config.value("hibernate.host"))
+                .isEqualTo("Stepan=1");
+    }
+
+    @Test
+    void whenPairWithCommentAndEmptyLine() {
+        String path = "./data/appWithCommentAndEmptyLines.properties";
+        Config config = new Config(path);
+        config.load();
+        assertThat(config.value("hibernate.name"))
+                .isEqualTo("Petr Arsentev");
+    }
+
+    @Test
+    void whenWithNoEqualSign() {
+        String path = "./data/appWithNoEqualSign.properties";
+        Config config = new Config(path);
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, config::load);
+        Assertions.assertEquals("wrong sequence line error", thrown.getMessage());
+    }
+
+    @Test
+    void whenValueKeyMistake() {
+        String path = "./data/appValueKeyMistake.properties";
+        Config config = new Config(path);
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, config::load);
+        Assertions.assertEquals("wrong sequence line error", thrown.getMessage());
+    }
+}
