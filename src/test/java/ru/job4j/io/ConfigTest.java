@@ -12,9 +12,9 @@ class ConfigTest {
         String path = "./data/app.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("hibernate.name"))
+        assertThat(config.value("name"))
                 .isEqualTo("Petr Arsentev");
-        assertThat(config.value("hibernate.host"))
+        assertThat(config.value("host"))
                 .isEqualTo("Stepan=1");
     }
 
@@ -23,7 +23,7 @@ class ConfigTest {
         String path = "./data/appWithCommentAndEmptyLines.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("hibernate.name"))
+        assertThat(config.value("name"))
                 .isEqualTo("Petr Arsentev");
     }
 
@@ -31,15 +31,19 @@ class ConfigTest {
     void whenWithNoEqualSign() {
         String path = "./data/appWithNoEqualSign.properties";
         Config config = new Config(path);
-        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, config::load);
-        Assertions.assertEquals("wrong sequence line error", thrown.getMessage());
+        IllegalArgumentException thrown =
+                Assertions.assertThrows(IllegalArgumentException.class, config::load);
+        Assertions.assertEquals(("cannot find '=' sign at line "
+                + config.getLineCounter()), thrown.getMessage());
     }
 
     @Test
     void whenValueKeyMistake() {
         String path = "./data/appValueKeyMistake.properties";
         Config config = new Config(path);
-        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, config::load);
-        Assertions.assertEquals("wrong sequence line error", thrown.getMessage());
+        IllegalArgumentException thrown =
+                Assertions.assertThrows(IllegalArgumentException.class, config::load);
+        Assertions.assertEquals(("wrong sequence in line "
+                + config.getLineCounter()), thrown.getMessage());
     }
 }
