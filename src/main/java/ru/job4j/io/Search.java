@@ -10,14 +10,13 @@ import java.util.function.Predicate;
 public class Search {
     public static void main(String[] args) throws IOException {
         Path start = Paths.get(".");
-        search(start, p -> p.toFile().getName().endsWith("Tiger")).
+        search(start, p -> p.toFile().getName().endsWith(".java")).
                 forEach(System.out::println);
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
         SearchFiles searcher = new SearchFiles(condition);
-        Path paths = Files.walkFileTree(root, searcher);
-        searcher.setPath(paths);
+        Files.walkFileTree(root, searcher);
         return searcher.getPaths();
     }
 }
