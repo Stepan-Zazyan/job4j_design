@@ -4,7 +4,7 @@ create table vin
     number int
 );
 
-create table car
+create table car_passport
 (
     id     serial primary key,
     vin_id int references vin(id)
