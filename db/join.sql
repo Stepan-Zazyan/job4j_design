@@ -10,8 +10,7 @@ create table employees
     name          text,
     department_id int references departments (id)
 );
-drop table departments;
-drop table employees;
+
 insert into departments (name)
 values ('IT'),
        ('Marketing'),
@@ -54,4 +53,5 @@ values ('kolya','m'),
        ('vasya', 'm'),
        ('sveta', 'f');
 
-select * from teens as tee cross join teens as t;
+select tee.name, t.name from teens as tee cross join teens as t
+where tee.gender!=t.gender;
