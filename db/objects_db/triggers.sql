@@ -7,8 +7,9 @@ create table products
     price    integer
 );
 
-select *
-from products;
+drop table products;
+
+
 
 insert into products (name, producer, count, price)
 values ('огурец', 'land', 5, 50),
@@ -20,7 +21,8 @@ create or replace function tax_for_statement()
 $$
 begin
     update products
-    set count = count + count * 2;
+    set count = count + count * 2
+    where id = new.id and new.id in (select id from inserted);
     return new;
 end;
 $$
@@ -33,8 +35,15 @@ create trigger tax_trigger
     for each statement
 execute procedure tax_for_statement();
 
+drop trigger  tax_trigger on products;
+
 insert into products (name, producer, count, price)
 values ('onion', 'land', 20, 1000);
+
+select *
+from products;
+
+-------------------------------------------------------------------------------
 
 create or replace function
     tax_before_paste()
@@ -42,11 +51,14 @@ create or replace function
 $$
 begin
     update products
-    set count = count + count * 2;
+    set count = count + count * 2
+    where id = new.id;
     return new;
 end;
 $$
     language 'plpgsql';
+
+drop trigger tax_trigger_before on products;
 
 create trigger tax_trigger_before
     before insert
@@ -55,8 +67,22 @@ create trigger tax_trigger_before
 execute procedure tax_before_paste();
 
 insert into products (name, producer, count, price)
-values ('onion', 'land', 8, 100);
+values ('new chipooos', 'factory', 8, 100);
 
+select *
+from products;
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------
 create table history_of_price
 (
     id    serial primary key,
