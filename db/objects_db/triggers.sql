@@ -22,7 +22,7 @@ $$
 begin
     update products
     set count = count + count * 2
-    where id = new.id and new.id in (select id from inserted);
+    where id in (select id from inserted);
     return new;
 end;
 $$
@@ -50,9 +50,7 @@ create or replace function
     returns trigger as
 $$
 begin
-    update products
-    set count = count + count * 2
-    where id = new.id;
+    new.count = new.count + new.count * 2;
     return new;
 end;
 $$
