@@ -12,10 +12,10 @@ class ConfigTest {
         String path = "./data/app.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("name"))
-                .isEqualTo("Petr Arsentev");
-        assertThat(config.value("host"))
-                .isEqualTo("Stepan=1");
+        assertThat(config.value("login"))
+                .isEqualTo("postgres");
+        assertThat(config.value("password"))
+                .isEqualTo("1234");
     }
 
     @Test
