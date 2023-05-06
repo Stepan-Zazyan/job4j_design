@@ -32,50 +32,37 @@ public class TableEditor implements AutoCloseable {
     }
 
 
-    public void createTable(String tableName) throws Exception {
-        try (Statement statement = connection.createStatement()) {
-            String sql =
-                    "CREATE TABLE IF NOT EXISTS " + "job4j." + tableName
+    public String createTable(String tableName) {
+        return "CREATE TABLE IF NOT EXISTS " + "job4j." + tableName
                             + " (id SERIAL PRIMARY KEY, "
                             + "simple_name text);";
-            statement.execute(sql);
-        }
     }
 
-    public void dropTable(String tableName) throws Exception {
-        try (Statement statement = connection.createStatement()) {
-            String sql = "drop TABLE job4j." + tableName + ";";
-            statement.execute(sql);
-        }
+    public String dropTable(String tableName) {
+        return "drop TABLE job4j." + tableName + ";";
     }
 
-    public void addColumn(String tableName, String columnName, String type) throws Exception {
-        try (Statement statement = connection.createStatement()) {
-            String sql = "ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " " + type;
-            statement.execute(sql);
-        }
+    public String addColumn(String tableName, String columnName, String type) {
+        return "ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " " + type;
     }
 
 
-    public void dropColumn(String tableName, String columnName) throws Exception {
-        try (Statement statement = connection.createStatement()) {
-            String sql = "ALTER TABLE " + tableName + " DROP COLUMN " + columnName;
-            statement.execute(sql);
-        }
+    public String dropColumn(String tableName, String columnName) {
+        return "ALTER TABLE " + tableName + " DROP COLUMN " + columnName;
     }
 
 
-    public void renameColumn(String tableName, String columnName, String newColumnName) throws Exception {
-        try (Connection connection = getConnection()) {
-            try (Statement statement = connection.createStatement()) {
-                String sql = "ALTER TABLE " + tableName
+    public String renameColumn(String tableName, String columnName, String newColumnName) {
+                return "ALTER TABLE " + tableName
                         + " RENAME COLUMN " + columnName
                         + " to " + newColumnName;
-                statement.execute(sql);
-            }
-        }
     }
 
+    public void exec(String str) throws Exception {
+       try (Statement statement = connection.createStatement()) {
+           statement.execute(str);
+        }
+    }
 
     public String getTableScheme(String tableName) throws Exception {
         var rowSeparator = "-".repeat(30).concat(System.lineSeparator());
@@ -109,15 +96,19 @@ public class TableEditor implements AutoCloseable {
             config.load(in);
         }
         try (TableEditor te = new TableEditor(config)) {
-            te.createTable("jdbc_table");
+            te.exec(te.createTable("jdbc_table"));
             System.out.println(te.getTableScheme("jdbc_table"));
-            te.addColumn("jdbc_table", "panother_column", "text");
+
+            te.exec(te.addColumn("jdbc_table", "psanother_column", "text"));
             System.out.println(te.getTableScheme("jdbc_table"));
-            te.renameColumn("jdbc_table", "panother_column", "chikky");
+
+            te.exec(te.renameColumn("jdbc_table", "psanother_column", "chikky"));
             System.out.println(te.getTableScheme("jdbc_table"));
-            te.dropColumn("jdbc_table", "chikky");
+
+            te.exec(te.dropColumn("jdbc_table", "chikky"));
             System.out.println(te.getTableScheme("jdbc_table"));
-            te.dropTable("jdbc_table");
+
+            te.exec(te.dropTable("jdbc_table"));
             System.out.println(te.getTableScheme("jdbc_table"));
             te.getConnection().close();
         }
