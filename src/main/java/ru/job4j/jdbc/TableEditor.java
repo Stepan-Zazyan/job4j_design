@@ -33,29 +33,25 @@ public class TableEditor implements AutoCloseable {
 
 
     public String createTable(String tableName) {
-        return "CREATE TABLE IF NOT EXISTS " + "job4j." + tableName
-                            + " (id SERIAL PRIMARY KEY, "
-                            + "simple_name text);";
+        return String.format("CREATE TABLE IF NOT EXISTS job4j.%s (id SERIAL PRIMARY KEY, simple_name text);", tableName);
     }
 
     public String dropTable(String tableName) {
-        return "drop TABLE job4j." + tableName + ";";
+        return String.format("drop TABLE job4j.%s;", tableName);
     }
 
     public String addColumn(String tableName, String columnName, String type) {
-        return "ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " " + type;
+        return String.format("ALTER TABLE %s ADD COLUMN %s %s ", tableName,  columnName, type);
     }
 
 
     public String dropColumn(String tableName, String columnName) {
-        return "ALTER TABLE " + tableName + " DROP COLUMN " + columnName;
+        return String.format("ALTER TABLE %s DROP COLUMN %s ", tableName,  columnName);
     }
 
 
     public String renameColumn(String tableName, String columnName, String newColumnName) {
-                return "ALTER TABLE " + tableName
-                        + " RENAME COLUMN " + columnName
-                        + " to " + newColumnName;
+                return String.format("ALTER TABLE %s RENAME COLUMN %s TO %s", tableName,  columnName, newColumnName);
     }
 
     public void exec(String str) throws Exception {
