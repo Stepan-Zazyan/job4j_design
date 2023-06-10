@@ -4,31 +4,38 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
 
-    private List<FileProperty> path = new ArrayList<>();
-    private List<FileProperty> pathAll = new ArrayList<>();
+    private Map<FileProperty, List<FileProperty>> path = new HashMap<>();
+
     public DuplicatesVisitor() {
     }
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-        FileProperty fp = new FileProperty((Math.round((float) attrs.size() / 100)), file.getFileName().toString());
-        if (!pathAll.contains(fp)) {
-            pathAll.add(fp);
+        FileProperty fpAbsolute = new FileProperty((Math.round((float) attrs.size() / 100)), file.toAbsolutePath().toString());
+        FileProperty fpShort = new FileProperty((Math.round((float) attrs.size() / 100)), file.getFileName().toString());
+        if (!path.containsKey(fpShort)) {
+            List<FileProperty> list = new ArrayList<>();
+            list.add(fpAbsolute);
+            path.put((fpShort), list);
         } else {
-            path.add(fp);
-            System.out.println(file.toAbsolutePath() + " " + fp.getSize());
+            path.get(fpShort).add(fpAbsolute);
         }
         return CONTINUE;
     }
 
-    public List<FileProperty> getPaths() {
-        return path;
+    public void printRes() {
+        for (Map.Entry<FileProperty, List<FileProperty>> s : path.entrySet()) {
+            if (s.getValue().size() > 1) {
+                for (FileProperty x : s.getValue()) {
+                    System.out.println(x.getName() + " " + x.getSize());
+                }
+            }
+        }
     }
 }
