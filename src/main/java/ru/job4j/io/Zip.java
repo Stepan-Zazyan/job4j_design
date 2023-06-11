@@ -41,7 +41,7 @@ public class Zip {
         Zip z = new Zip();
         z.validateLength(args);
         z.validateValues(String.valueOf(start), extension, formasionne);
-        List<Path> list = Search.search(start, s -> !s.toFile().getName().endsWith(".java"));
+        List<Path> list = Search.search(start, s -> !s.toFile().getName().endsWith(extension));
         z.packFiles(list, new File("myFirst.zip"));
     }
 
