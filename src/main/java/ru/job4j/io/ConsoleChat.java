@@ -2,6 +2,7 @@ package ru.job4j.io;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,21 +26,21 @@ public class ConsoleChat {
         List<String> userInput = new ArrayList<>();
         String str = "";
         Scanner sc = new Scanner(System.in);
-        while (!str.equals(OUT)) {
+        while (!OUT.equals(str)) {
             str = sc.next();
             userInput.add(str);
-            if (str.equals(STOP)) {
+            if (STOP.equals(str)) {
                 userInput.add(STOP);
-                while (!str.equals(CONTINUE)) {
+                while (!CONTINUE.equals(str)) {
                     str = sc.next();
                     userInput.add(str);
-                    if (str.equals(OUT)) {
+                    if (OUT.equals(str)) {
                         userInput.add(OUT);
                         break;
                     }
                 }
             }
-            if (!str.equals(OUT)) {
+            if (!OUT.equals(str)) {
                 String s = answers.get(random.nextInt(5));
                 System.out.println(s);
                 userInput.add(s);
@@ -64,7 +65,7 @@ public class ConsoleChat {
     private void saveLog(List<String> log) {
         try (BufferedWriter out = new BufferedWriter(
                 new FileWriter("data/consoleOutput.log",
-                        Charset.forName("WINDOWS-1251"), true))) {
+                        StandardCharsets.UTF_8, true))) {
             for (String x : log) {
                 out.write(x);
                 out.newLine();
