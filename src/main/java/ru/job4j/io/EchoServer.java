@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.Arrays;
 
 public class EchoServer {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         try (ServerSocket server = new ServerSocket(9000)) {
             while (!server.isClosed()) {
                 Socket socket = server.accept();
@@ -27,6 +27,8 @@ public class EchoServer {
                     out.flush();
                 }
             }
+        } catch (IOException e) {
+            UsageLog4j.getLog().error("Error", e);
         }
     }
 }
