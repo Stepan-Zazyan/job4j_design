@@ -17,7 +17,4 @@ public class UsageLog4j {
         }
     }
 
-    public static Logger getLog() {
-        return LOG;
-    }
 }
