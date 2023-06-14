@@ -1,12 +1,9 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.StringJoiner;
 
 public class CSVReader {
     public static void handle(ArgsName argsName) throws Exception {
@@ -14,8 +11,6 @@ public class CSVReader {
         String delimiter = argsName.get("delimiter");
         String outStr = argsName.get("out");
         String filter = argsName.get("filter");
-        var scanner = new Scanner(new BufferedReader(
-                new FileReader(path))).useDelimiter(System.lineSeparator());
         String[] array = filter.split(",");
         List<String> headers;
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -28,14 +23,17 @@ public class CSVReader {
             }
         }
         StringBuilder resultBuilder = new StringBuilder();
-        for (int i = 0; scanner.hasNext(); i++) {
-            String[] str = scanner.next().split(delimiter);
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Integer integer : filters) {
-                stringBuilder.append(str[integer]).append(delimiter);
+        try (var scanner = new Scanner(new BufferedReader(
+                new FileReader(path))).useDelimiter(System.lineSeparator());) {
+            for (int i = 0; scanner.hasNext(); i++) {
+                String[] str = scanner.next().split(delimiter);
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Integer integer : filters) {
+                    stringBuilder.append(str[integer]).append(delimiter);
+                }
+                resultBuilder.append(stringBuilder.substring(
+                        0, stringBuilder.length() - 1)).append(System.lineSeparator());
             }
-            resultBuilder.append(stringBuilder.substring(
-                    0, stringBuilder.length() - 1)).append(System.lineSeparator());
         }
         if ("stdout".equals(outStr)) {
             System.out.print(resultBuilder);
