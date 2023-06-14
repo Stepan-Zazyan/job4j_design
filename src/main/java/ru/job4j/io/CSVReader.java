@@ -28,7 +28,7 @@ public class CSVReader {
             }
         }
         StringBuilder resultBuilder = new StringBuilder();
-        for (int i = 0 ; scanner.hasNext(); i++) {
+        for (int i = 0; scanner.hasNext(); i++) {
             String[] str = scanner.next().split(delimiter);
             StringBuilder stringBuilder = new StringBuilder();
             for (Integer integer : filters) {
@@ -45,6 +45,7 @@ public class CSVReader {
             }
         }
     }
+
     public static void main(String[] args) throws Exception {
         ArgsName argsName = ArgsName.of(args);
         String path = argsName.get("path");
