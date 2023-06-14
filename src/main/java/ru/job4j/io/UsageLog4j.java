@@ -9,12 +9,19 @@ public class UsageLog4j {
     private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public static void main(String[] args) throws Exception {
-        try {
-            throw new Exception("Not supported code");
-        } catch (Exception e) {
-            LOG.error("Error", e);
-            throw e;
-        }
+        String name = "Stepan Zazyan";
+        int age = 33;
+        byte b = 127;
+        short s = 16000;
+        double d = 1.23;
+        float f = 3.2f;
+        long l = 900000L;
+        char c = 'a';
+        boolean baboolean = true;
+        LOG.debug("User info name : {}, age : {}, "
+                        + "b : {}, s : {}, d : {}, f : {}, "
+                        + "l : {}, c : {}, baboolean : {}",
+                name, age, b, s, d, f, l, c, baboolean);
     }
-
 }
+
