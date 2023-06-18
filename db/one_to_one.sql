@@ -8,6 +8,6 @@ drop table vin;
 create table car_passport
 (
     id     serial primary key,
-    vin_id int references vin(id) unique
+    vin_id int references vin(id)  unique
 );
 
