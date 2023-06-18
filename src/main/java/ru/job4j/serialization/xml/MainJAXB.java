@@ -1,4 +1,8 @@
 package ru.job4j.serialization.xml;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -7,10 +11,12 @@ import javax.xml.bind.annotation.*;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainJAXB {
-    public static void main(String[] args) throws JAXBException {
+    public static void main(String[] args) throws JAXBException, JsonProcessingException {
        Animal animal = new Animal(true, 100, "tiger",
                new Insects(2, "bee"), new String[] {"dog", "cat"});
         /* Получаем контекст для доступа к АПИ */
@@ -35,6 +41,26 @@ public class MainJAXB {
             Animal result = (Animal) unmarshaller.unmarshal(reader);
             System.out.println(result);
         }
+
+        JSONObject jsonInsects = new JSONObject("{\"size\": \"2\",\"name\": \"bee\"}");
+        List<String> list = new ArrayList<>();
+        list.add("dog");
+        list.add("cat");
+        JSONArray jsonPride = new JSONArray(list);
+        String[] str = {"cat", "dog"};
+        JSONArray jsonPride2 = new JSONArray(str);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("predator", animal.isPredator());
+        jsonObject.put("speed", animal.getSpeed());
+        jsonObject.put("name", animal.getName());
+        jsonObject.put("insect", jsonInsects);
+        jsonObject.put("pride", jsonPride2);
+
+        /* Выведем результат в консоль */
+        System.out.println(jsonObject);
+        /* Преобразуем объект person в json-строку */
+        System.out.println(new JSONObject(animal));
     }
 }
 @XmlRootElement(name = "animal")
@@ -51,7 +77,6 @@ class Animal {
     private String[] pride;
 
     public Animal() {
-
     }
 
     public Animal(boolean predator, int speed, String name, Insects insect, String[] pride) {
@@ -71,6 +96,18 @@ class Animal {
                 + ", insect=" + insect
                 + ", pride=" + Arrays.toString(pride)
                 + '}';
+    }
+
+    public boolean isPredator() {
+        return predator;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public String getName() {
+        return name;
     }
 }
 
