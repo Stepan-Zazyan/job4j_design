@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class MainJAXB {
     public static void main(String[] args) throws JAXBException {
        Animal animal = new Animal(true, 100, "tiger",
-               new Insects(), new String[] {"dog", "cat"});
+               new Insects(2, "bee"), new String[] {"dog", "cat"});
         /* Получаем контекст для доступа к АПИ */
         JAXBContext context = JAXBContext.newInstance(Animal.class);
         /* Создаем сериализатор */
@@ -35,7 +35,6 @@ public class MainJAXB {
             Animal result = (Animal) unmarshaller.unmarshal(reader);
             System.out.println(result);
         }
-
     }
 }
 @XmlRootElement(name = "animal")
@@ -47,6 +46,7 @@ class Animal {
     private int speed;
     @XmlAttribute
     private String name;
+    @XmlElement
     private Insects insect;
     private String[] pride;
 
@@ -75,9 +75,26 @@ class Animal {
 }
 
 @XmlRootElement(name = "insects")
+@XmlAccessorType(XmlAccessType.FIELD)
 class Insects {
     @XmlAttribute
     private int size;
     @XmlAttribute
     private String name;
+
+    public Insects() {
+
+    }
+    public Insects(int size, String name) {
+        this.size = size;
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Insects{"
+                + "size=" + size
+                + ", name='" + name + '\''
+                + '}';
+    }
 }
