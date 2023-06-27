@@ -1,0 +1,125 @@
+Количество элементов 250000 размер хипа в 12 мегабайт
+сборщик мусора: Parallel (-XX:+UseParallelGC -Xmx12m -Xms12m -Xlog:gc:log.txt)
+сортировка слиянием
+[1,290s][info][gc] GC(0) Pause Young (Allocation Failure) 3M->2M(11M) 15,107ms
+MergeSort Начало сортировки - 11:28:42.681898588
+MergeSort Конец сортировки - 11:28:42.744427895
+
+сортировка пузырьком
+BubbleSort Начало сортировки - 11:28:48.532157988
+BubbleSort Конец сортировки - 11:31:02.118694801
+[28,054s][info][gc] GC(1) Pause Young (Allocation Failure) 5M->4M(11M) 3,191ms
+[28,063s][info][gc] GC(2) Pause Young (Allocation Failure) 7M->4M(11M) 1,050ms
+[28,069s][info][gc] GC(3) Pause Young (Allocation Failure) 7M->5M(11M) 1,106ms
+[28,074s][info][gc] GC(4) Pause Young (Allocation Failure) 8M->5M(11M) 1,042ms
+[28,079s][info][gc] GC(5) Pause Young (Allocation Failure) 8M->5M(10M) 1,054ms
+[28,084s][info][gc] GC(6) Pause Young (Allocation Failure) 7M->5M(11M) 1,167ms
+[28,087s][info][gc] GC(7) Pause Young (Allocation Failure) 7M->5M(11M) 0,323ms
+[28,090s][info][gc] GC(8) Pause Young (Allocation Failure) 7M->6M(11M) 0,414ms
+[28,094s][info][gc] GC(9) Pause Young (Allocation Failure) 8M->6M(11M) 0,465ms
+[28,097s][info][gc] GC(10) Pause Young (Allocation Failure) 8M->6M(11M) 0,328ms
+[28,100s][info][gc] GC(11) Pause Young (Allocation Failure) 8M->6M(11M) 0,207ms
+[28,103s][info][gc] GC(12) Pause Young (Allocation Failure) 8M->6M(11M) 0,219ms
+
+сортировка вставками
+InsertSort Начало сортировки - 11:31:16.312006508
+InsertSort Конец сортировки - 11:31:24.254544626
+[181,673s][info][gc] GC(13) Pause Young (Allocation Failure) 8M->6M(11M) 0,494ms
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+сборщик мусора: G1 (-XX:+UseG1GC -Xmx12m -Xms12m -Xlog:gc:log.txt)
+сортировка слиянием
+MergeSort Начало сортировки - 11:59:50.026757011
+MergeSort Конец сортировки - 11:59:50.110363926
+
+сортировка пузырьком
+BubbleSort Начало сортировки - 12:00:02.593581097
+BubbleSort Конец сортировки — 12:02:31.477203726
+
+
+[29,876s][info][gc] GC(0) Pause Young (Normal) (G1 Evacuation Pause) 7M->4M(12M) 4,030ms
+[29,881s][info][gc] GC(1) Pause Young (Normal) (G1 Evacuation Pause) 5M->4M(12M) 1,973ms
+[29,883s][info][gc] GC(2) Pause Young (Concurrent Start) (G1 Evacuation Pause) 5M->4M(12M) 0,604ms
+[29,883s][info][gc] GC(3) Concurrent Mark Cycle
+[29,890s][info][gc] GC(3) Pause Remark 6M->6M(12M) 3,186ms
+[29,892s][info][gc] GC(4) Pause Young (Normal) (G1 Evacuation Pause) 6M->4M(12M) 0,529ms
+[29,893s][info][gc] GC(3) Pause Cleanup 5M->5M(12M) 0,032ms
+[29,893s][info][gc] GC(3) Concurrent Mark Cycle 10,045ms
+[29,896s][info][gc] GC(5) Pause Young (Normal) (G1 Evacuation Pause) 6M->5M(12M) 0,358ms
+[29,900s][info][gc] GC(6) Pause Young (Concurrent Start) (G1 Evacuation Pause) 6M->5M(12M) 0,664ms
+[29,900s][info][gc] GC(7) Concurrent Mark Cycle
+[29,906s][info][gc] GC(7) Pause Remark 6M->6M(12M) 0,535ms
+[29,908s][info][gc] GC(7) Pause Cleanup 7M->7M(12M) 0,037ms
+[29,908s][info][gc] GC(8) Pause Young (Normal) (G1 Evacuation Pause) 7M->5M(12M) 0,472ms
+[29,909s][info][gc] GC(7) Concurrent Mark Cycle 8,644ms
+[29,915s][info][gc] GC(9) Pause Young (Normal) (G1 Evacuation Pause) 8M->5M(12M) 0,632ms
+[29,922s][info][gc] GC(10) Pause Young (Concurrent Start) (G1 Evacuation Pause) 8M->5M(12M) 0,828ms
+[29,922s][info][gc] GC(11) Concurrent Mark Cycle
+[29,926s][info][gc] GC(11) Pause Remark 7M->7M(12M) 0,489ms
+[29,927s][info][gc] GC(12) Pause Young (Normal) (G1 Evacuation Pause) 7M->5M(12M) 0,389ms
+[29,928s][info][gc] GC(11) Pause Cleanup 5M->5M(12M) 0,025ms
+[29,928s][info][gc] GC(11) Concurrent Mark Cycle 5,593ms
+[29,932s][info][gc] GC(13) Pause Young (Normal) (G1 Evacuation Pause) 7M->5M(12M) 0,422ms
+[29,936s][info][gc] GC(14) Pause Young (Concurrent Start) (G1 Evacuation Pause) 7M->5M(12M) 0,793ms
+[29,936s][info][gc] GC(15) Concurrent Mark Cycle
+[29,940s][info][gc] GC(16) Pause Young (Normal) (G1 Evacuation Pause) 7M->5M(12M) 0,352ms
+[29,941s][info][gc] GC(15) Pause Remark 6M->6M(12M) 0,402ms
+[29,943s][info][gc] GC(15) Pause Cleanup 6M->6M(12M) 0,044ms
+[29,943s][info][gc] GC(15) Concurrent Mark Cycle 7,340ms
+
+сортировка вставками
+InsertSort Начало сортировки - 12:02:42.906865614
+InsertSort Конец сортировки - 12:02:52.839644398
+
+[202,712s][info][gc] GC(17) Pause Young (Prepare Mixed) (G1 Humongous Allocation) 9M->4M(12M) 0,607ms
+
+
+
+----------------------------------------------------------------------------------------------------------
+
+Количество элементов 250000 размер хипа в 24 мегабайта
+
+сборщик мусора: ZGC
+сортировка слиянием
+MergeSort Начало сортировки - 12:10:57.568143306
+MergeSort Конец сортировки - 12:10:57.653187196
+[0,203s][info][gc] GC(0) Garbage Collection (Warmup) 4M(17%)->4M(17%)
+[0,300s][info][gc] GC(1) Garbage Collection (Warmup) 6M(25%)->6M(25%)
+
+сортировка пузырьком
+BubbleSort Начало сортировки - 12:11:19.105689330
+BubbleSort Конец сортировки - 12:13:42.148229998
+[15,100s][info][gc] GC(2) Garbage Collection (Warmup) 8M(33%)->6M(25%)
+[23,602s][info][gc] GC(3) Garbage Collection (Proactive) 16M(67%)->14M(58%)
+[23,635s][info][gc] Allocation Stall (main) 12,024ms
+[23,637s][info][gc] GC(4) Garbage Collection (Allocation Stall) 24M(100%)->12M(50%)
+[23,698s][info][gc] GC(5) Garbage Collection (Allocation Rate) 20M(83%)->6M(25%)
+[23,799s][info][gc] GC(6) Garbage Collection (Allocation Rate) 6M(25%)->6M(25%)
+[23,897s][info][gc] GC(7) Garbage Collection (Allocation Rate) 6M(25%)->6M(25%)
+[23,995s][info][gc] GC(8) Garbage Collection (Allocation Rate) 6M(25%)->6M(25%)
+[24,094s][info][gc] GC(9) Garbage Collection (Allocation Rate) 6M(25%)->6M(25%)
+[24,194s][info][gc] GC(10) Garbage Collection (Allocation Rate) 6M(25%)->6M(25%)
+[24,295s][info][gc] GC(11) Garbage Collection (Allocation Rate) 6M(25%)->6M(25%)
+[45,196s][info][gc] GC(12) Garbage Collection (Proactive) 10M(42%)->8M(33%)
+
+
+сортировка вставками
+InsertSort Начало сортировки - 12:14:01.097154490
+InsertSort Конец сортировки - 12:14:10.349500185
+
+[207,199s][info][gc] GC(13) Garbage Collection (Proactive) 12M(50%)->8M(33%)
+
+Выгоднее использовать сортировку слиянием
+
+
+
+
+
+
+
+
+
+
