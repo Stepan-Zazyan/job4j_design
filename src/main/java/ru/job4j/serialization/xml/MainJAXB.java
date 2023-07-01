@@ -1,5 +1,4 @@
 package ru.job4j.serialization.xml;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainJAXB {
-    public static void main(String[] args) throws JAXBException, JsonProcessingException {
+    public static void main(String[] args) throws JAXBException {
        Animal animal = new Animal(true, 100, "tiger",
                new Insects(2, "bee"), new String[] {"dog", "cat"});
         /* Получаем контекст для доступа к АПИ */
@@ -42,7 +41,7 @@ public class MainJAXB {
             System.out.println(result);
         }
 
-        JSONObject jsonInsects = new JSONObject("{\"size\": \"2\",\"name\": \"bee\"}");
+        JSONObject jsonInsects = new JSONObject("{" + "\"size\":2," + "\"name\":bee" + "}");
         List<String> list = new ArrayList<>();
         list.add("dog");
         list.add("cat");
@@ -56,7 +55,6 @@ public class MainJAXB {
         jsonObject.put("name", animal.getName());
         jsonObject.put("insect", jsonInsects);
         jsonObject.put("pride", jsonPride2);
-
         /* Выведем результат в консоль */
         System.out.println(jsonObject);
         /* Преобразуем объект person в json-строку */
@@ -109,6 +107,16 @@ class Animal {
     public String getName() {
         return name;
     }
+
+    public JSONObject toJSON() {
+        JSONObject jsonAnimal = new JSONObject();
+        jsonAnimal.put("predator", predator);
+        jsonAnimal.put("speed", speed);
+        jsonAnimal.put("name", name);
+        jsonAnimal.put("insect", insect.toJSON());
+        jsonAnimal.put("pride", new JSONArray(pride));
+        return jsonAnimal;
+    }
 }
 
 @XmlRootElement(name = "insects")
@@ -133,5 +141,12 @@ class Insects {
                 + "size=" + size
                 + ", name='" + name + '\''
                 + '}';
+    }
+
+    public JSONObject toJSON() {
+        JSONObject jsonInsects = new JSONObject();
+        jsonInsects.put("size", size);
+        jsonInsects.put("name", name);
+        return jsonInsects;
     }
 }
