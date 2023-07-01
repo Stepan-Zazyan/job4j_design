@@ -1,7 +1,8 @@
 package ru.job4j.serialization.xml;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -15,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainJAXB {
-    public static void main(String[] args) throws JAXBException {
+    public static void main(String[] args) throws JAXBException, JsonProcessingException {
        Animal animal = new Animal(true, 100, "tiger",
                new Insects(2, "bee"), new String[] {"dog", "cat"});
         /* Получаем контекст для доступа к АПИ */
@@ -38,27 +39,28 @@ public class MainJAXB {
         try (StringReader reader = new StringReader(xml)) {
             /* десериализуем */
             Animal result = (Animal) unmarshaller.unmarshal(reader);
-            System.out.println(result);
+            System.out.println("deserialized animal object= " + result);
         }
 
-        JSONObject jsonInsects = new JSONObject("{" + "\"size\":2," + "\"name\":bee" + "}");
+        JSONObject jsonInsects = new JSONObject("{size:2,name:bee}");
+        System.out.println("jsonInsects= " + jsonInsects);
         List<String> list = new ArrayList<>();
         list.add("dog");
         list.add("cat");
-        JSONArray jsonPride = new JSONArray(list);
-        String[] str = {"cat", "dog"};
-        JSONArray jsonPride2 = new JSONArray(str);
+        JSONArray jsonPride2 = new JSONArray(list);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("predator", animal.isPredator());
         jsonObject.put("speed", animal.getSpeed());
         jsonObject.put("name", animal.getName());
-        jsonObject.put("insect", jsonInsects);
-        jsonObject.put("pride", jsonPride2);
+        jsonObject.put("insect", animal.getInsect());
+        jsonObject.put("pride", animal.getPride());
         /* Выведем результат в консоль */
-        System.out.println(jsonObject);
+        System.out.println("jsonObject= " + jsonObject.toString());
         /* Преобразуем объект person в json-строку */
-        System.out.println(new JSONObject(animal));
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(animal);
+        System.out.println(jsonString);
     }
 }
 @XmlRootElement(name = "animal")
@@ -83,6 +85,12 @@ class Animal {
         this.name = name;
         this.insect = insect;
         this.pride = pride;
+    }
+
+    public Animal(boolean b, int i, String tiger) {
+        this.predator = b;
+        this.speed = i;
+        this.name = tiger;
     }
 
     @Override
@@ -116,6 +124,14 @@ class Animal {
         jsonAnimal.put("insect", insect.toJSON());
         jsonAnimal.put("pride", new JSONArray(pride));
         return jsonAnimal;
+    }
+
+    public Insects getInsect() {
+        return insect;
+    }
+
+    public String[] getPride() {
+        return pride;
     }
 }
 
