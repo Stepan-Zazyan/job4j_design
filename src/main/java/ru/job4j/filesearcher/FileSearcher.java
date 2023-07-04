@@ -1,26 +1,28 @@
 package ru.job4j.filesearcher;
 
+import ru.job4j.io.ArgsName;
 import ru.job4j.io.Search;
 import java.io.*;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
 
 public class FileSearcher {
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Введите директорию");
-        args[0] = sc.next();
-        System.out.println("Введите имя файла, маска, либо регулярное выражение");
-        args[1] = sc.next();
-        System.out.println("Выберите тип поиска: mask искать по маске, name по полному совпадение имени, regex по регулярному выражению");
-        args[2] = sc.next();
-        System.out.println("Введите имя лог-файла");
-        args[3] = sc.next();
+        ArgsName jvm = ArgsName.of(args);
+        Path start = Paths.get(jvm.get("d"));
+        System.out.println(start);
+        String name = jvm.get("n");
+        System.out.println(name);
+        String type = jvm.get("t");
+        System.out.println(type);
+        String nameLogFile = jvm.get("o");
+        System.out.println(nameLogFile);
         FileSearcher fileSearcher = new FileSearcher();
         fileSearcher.validateLength(args);
-        fileSearcher.validateValues(args[0], args[1], args[2], args[3]);
-        List<Path> list = Search.search(Path.of(args[0]), s -> s.toFile().getName().contains(args[1]));
+        fileSearcher.validateValues(String.valueOf(start), name, type, nameLogFile);
+        List<Path> list = Search.search(start, s -> s.toFile().getName().contains(name));
+        System.out.println(list);
         try (BufferedWriter out = new BufferedWriter(new FileWriter("resultFileSearcher.txt"))) {
             out.write(list.toString());
         } catch (IOException e) {
