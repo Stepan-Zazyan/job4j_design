@@ -5,7 +5,9 @@ import ru.job4j.io.Search;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class FileSearcher {
     public static void main(String[] args) throws IOException {
@@ -21,27 +23,27 @@ public class FileSearcher {
         FileSearcher fileSearcher = new FileSearcher();
         fileSearcher.validateLength(args);
         fileSearcher.validateValues(String.valueOf(start), name, type, nameLogFile);
-        List<Path> list = Search.search(start, s -> s.toFile().getName().contains(name));
-        System.out.println(list);
-        try (BufferedWriter out = new BufferedWriter(new FileWriter("resultFileSearcher.txt"))) {
+        List<Path> list = new ArrayList<>();
+
+        if (("name").equals(type)) {
+            list = Search.search(start, s -> s.toFile().getName().contains(name));
+        }
+
+        if (("regex").equals(type)) {
+            Pattern pattern = Pattern.compile(name);
+            list = Search.search(start, s -> pattern.matcher(s.toString()).find());
+        }
+
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(nameLogFile))) {
             out.write(list.toString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void validateLength(String[] strins) {
-        if (strins.length == 0) {
-            throw new IllegalArgumentException("Root folder is null. Usage  ROOT_FOLDER.");
-        }
-        if (strins.length == 1) {
-            throw new IllegalArgumentException("Set file name, mask or regular expression");
-        }
-        if (strins.length == 2) {
-            throw new IllegalArgumentException("Set type search");
-        }
-        if (strins.length == 3) {
-            throw new IllegalArgumentException("Set log file name");
+    public void validateLength(String[] strings) {
+        if (strings.length == 3) {
+            throw new IllegalArgumentException("Set all values in program properties");
         }
     }
 
