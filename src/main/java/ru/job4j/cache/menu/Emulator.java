@@ -24,7 +24,9 @@ public class Emulator {
             switch (value) {
                 case (1) -> System.out.println(dirFileCache.load(name));
                 case (2) -> System.out.println(dirFileCache.getCache().get(name).get());
-                default -> t = false;
+                default -> {
+                    t = false;
+                }
             }
         }
     }
