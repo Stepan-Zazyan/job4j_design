@@ -35,9 +35,9 @@ public class FileSearcher {
                 list = Search.search(start, s -> pattern.matcher(s.toString()).find());
             }
             case ("mask") -> {
-                String str = name.replace("*", "[a-zA-Z0-9]");
-                Pattern pattern = Pattern.compile(str);
-                list = Search.search(start, s -> pattern.matcher(s.toString()).find());
+                String str = name.replace("*", "\\w*")
+                        .replace("?", "[a-zA-Z0-9]?");
+                list = Search.search(start, s -> s.getFileName().toString().matches(str));
             }
             default -> System.out.println("Введите корректный вид поиска");
         }
