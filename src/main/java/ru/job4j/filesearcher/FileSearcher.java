@@ -2,6 +2,7 @@ package ru.job4j.filesearcher;
 
 import ru.job4j.io.ArgsName;
 import ru.job4j.io.Search;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,13 +26,20 @@ public class FileSearcher {
         fileSearcher.validateValues(String.valueOf(start), name, type, nameLogFile);
         List<Path> list = new ArrayList<>();
 
-        if (("name").equals(type)) {
-            list = Search.search(start, s -> s.toFile().getName().contains(name));
-        }
-
-        if (("regex").equals(type)) {
-            Pattern pattern = Pattern.compile(name);
-            list = Search.search(start, s -> pattern.matcher(s.toString()).find());
+        switch (type) {
+            case ("name") -> {
+                list = Search.search(start, s -> s.toFile().getName().contains(name));
+            }
+            case ("regex") -> {
+                Pattern pattern = Pattern.compile(name);
+                list = Search.search(start, s -> pattern.matcher(s.toString()).find());
+            }
+            case ("mask") -> {
+                String str = name.replace("*", "[a-zA-Z0-9]");
+                Pattern pattern = Pattern.compile(str);
+                list = Search.search(start, s -> pattern.matcher(s.toString()).find());
+            }
+            default -> System.out.println("Введите корректный вид поиска");
         }
 
         try (BufferedWriter out = new BufferedWriter(new FileWriter(nameLogFile))) {
