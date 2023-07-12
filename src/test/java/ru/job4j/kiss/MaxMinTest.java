@@ -9,20 +9,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class MaxMinTest {
 
     @Test
-    void max() {
+    void searchMax() {
         List<Integer> list = List.of(1, 4, 3, 2);
         int max = 4;
         MaxMin<Integer> maxMin = new MaxMin<>();
-        int result = maxMin.max(list, Integer::compareTo);
+        int result = maxMin.searchMinMax(list, (s, d) -> s > d);
         assertEquals(max, result);
     }
 
     @Test
-    void min() {
+    void searchMin() {
         List<Integer> list = List.of(1, 4, 3, 2);
         int min = 1;
         MaxMin<Integer> maxMin = new MaxMin<>();
-        int result = maxMin.min(list, Integer::compareTo);
+        int result = maxMin.searchMinMax(list, (s, d) -> s < d);
         assertEquals(min, result);
     }
 }
