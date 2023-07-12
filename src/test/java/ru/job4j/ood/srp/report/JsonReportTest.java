@@ -19,16 +19,24 @@ class JsonReportTest {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
         Employee worker1 = new Employee("Ivan", now, now, 100);
+        Employee worker2 = new Employee("Kolya", now, now, 200);
         DateTimeParser<Calendar> parser = new ReportDateTimeParser();
         store.add(worker1);
+        store.add(worker2);
         JsonReport jsonReport = new JsonReport(store, parser);
         JSONArray jsonArray = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", worker1.getName());
-        jsonObject.put("hired", parser.parse(worker1.getHired()));
-        jsonObject.put("fired", parser.parse(worker1.getFired()));
-        jsonObject.put("salary", worker1.getSalary());
-        jsonArray.put(jsonObject);
+        JSONObject jsonObject1 = new JSONObject();
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject1.put("name", worker1.getName());
+        jsonObject1.put("hired", parser.parse(worker1.getHired()));
+        jsonObject1.put("fired", parser.parse(worker1.getFired()));
+        jsonObject1.put("salary", worker1.getSalary());
+        jsonObject2.put("name", worker2.getName());
+        jsonObject2.put("hired", parser.parse(worker2.getHired()));
+        jsonObject2.put("fired", parser.parse(worker2.getFired()));
+        jsonObject2.put("salary", worker2.getSalary());
+        jsonArray.put(jsonObject1);
+        jsonArray.put(jsonObject2);
         assertThat(jsonReport.generate(s -> true)).isEqualTo(jsonArray.toString());
     }
 }
