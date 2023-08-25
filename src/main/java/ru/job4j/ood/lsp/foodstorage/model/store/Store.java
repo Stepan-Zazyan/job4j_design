@@ -7,13 +7,13 @@ import java.util.Optional;
 
 public interface Store {
 
-    public Food add(Food food);
+    Food add(Food food);
 
-    public boolean delete();
+    boolean delete(Food food);
 
-    public boolean update();
+    void update(Food oldFood, double discount);
 
-    public Optional<Store> findById();
+    Optional<Food> findById(int id);
 
-    public Collection<Store> findAll();
+    Collection<Food> findAll();
 }

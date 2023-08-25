@@ -4,15 +4,35 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Cheese extends Food {
+    private int id;
     private String name;
     private LocalDate expiryDate;
     private LocalDate createDate;
     private double price;
     private double discount;
 
+    public Cheese(int id, String name, LocalDate expiryDate, LocalDate createDate, double price, double discount) {
+        this.id = id;
+        this.name = name;
+        this.expiryDate = expiryDate;
+        this.createDate = createDate;
+        this.price = price;
+        this.discount = discount;
+    }
+
     @Override
     public void consume() {
         System.out.println("Есть сыр");
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -57,7 +77,8 @@ public class Cheese extends Food {
 
     @Override
     public String toString() {
-        return "Cheese{" + "name='"
+        return "Cheese{" + "id='"
+                + id + "name='"
                 + name + '\'' + ", expiryDate="
                 + expiryDate + ", createDate="
                 + createDate + ", price="
@@ -74,13 +95,15 @@ public class Cheese extends Food {
             return false;
         }
         Cheese cheese = (Cheese) o;
-        return Double.compare(price, cheese.price) == 0
-                && Double.compare(discount, cheese.discount) == 0 && Objects.equals(name, cheese.name)
-                && Objects.equals(expiryDate, cheese.expiryDate) && Objects.equals(createDate, cheese.createDate);
+        return id == cheese.id && Double.compare(price, cheese.price) == 0
+                && Double.compare(discount, cheese.discount) == 0
+                && Objects.equals(name, cheese.name)
+                && Objects.equals(expiryDate, cheese.expiryDate)
+                && Objects.equals(createDate, cheese.createDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, expiryDate, createDate, price, discount);
+        return Objects.hash(id, name, expiryDate, createDate, price, discount);
     }
 }

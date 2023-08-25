@@ -10,27 +10,18 @@ import java.util.Optional;
 public abstract class AbstractStore implements Store {
 
     private Map<Integer, AbstractStore> store = new HashMap<>();
-    private int id = 0;
 
-    public Food add(Food food) {
-        return food;
-    }
+    private final int id = 0;
 
-    public boolean delete(String name) {
-        return false;
-    }
+    public abstract Food add(Food food);
 
-    public boolean update(int oldId, String oldValue, String value) {
-        return false;
-    }
+    public abstract boolean delete(Food food);
 
-    public Optional<Store> findById(int id) {
-        return Optional.empty();
-    }
+    public abstract void update(Food food, double discount);
 
-    public Collection<Store> findAll() {
-        return null;
-    }
+    public abstract Optional<Food> findById(int id);
+
+    public abstract Collection<Food> findAll();
 
     public int getId() {
         return id;

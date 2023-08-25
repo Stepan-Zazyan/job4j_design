@@ -9,35 +9,39 @@ import java.util.Optional;
 
 public class Warehouse extends AbstractStore {
     private static final Warehouse INSTANCE = new Warehouse();
-    private Map<Integer, Food> store = new HashMap<>();
+    private final Map<Integer, Food> storeWarehouse = new HashMap<>();
+    private int id = 0;
 
-    public static Warehouse getInstance() {
+    private static Warehouse getInstance() {
         return INSTANCE;
     }
 
     @Override
     public Food add(Food food) {
-        return null;
+        id++;
+        food.setId(id);
+        return storeWarehouse.putIfAbsent(id, food);
     }
 
     @Override
-    public boolean delete() {
-        return false;
+    public boolean delete(Food food) {
+        return storeWarehouse.remove(food.getId()) != null;
     }
 
     @Override
-    public boolean update() {
-        return false;
+    public void update(Food food, double discount) {
+        storeWarehouse.get(food.getId()).setPrice(food.getPrice() * ((100 - discount) / 100));
+        storeWarehouse.get(food.getId()).setDiscount(25);
     }
 
     @Override
-    public Optional<Store> findById() {
-        return Optional.empty();
+    public Optional<Food> findById(int id) {
+        return Optional.ofNullable(storeWarehouse.get(id));
     }
 
     @Override
-    public Collection<Store> findAll() {
-        return null;
+    public Collection<Food> findAll() {
+        return storeWarehouse.values();
     }
 
 }

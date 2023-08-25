@@ -4,11 +4,21 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class IceCream extends Food {
+    private int id;
     private String name;
     private LocalDate expiryDate;
     private LocalDate createDate;
     private double price;
     private double discount;
+
+    public IceCream(int id, String name, LocalDate expiryDate, LocalDate createDate, double price, double discount) {
+        this.id = id;
+        this.name = name;
+        this.expiryDate = expiryDate;
+        this.createDate = createDate;
+        this.price = price;
+        this.discount = discount;
+    }
 
     @Override
     public void consume() {
@@ -57,7 +67,8 @@ public class IceCream extends Food {
 
     @Override
     public String toString() {
-        return "IceCream{" + "name='"
+        return "IceCream{" + "id='"
+                + id + "name='"
                 + name + '\'' + ", expiryDate="
                 + expiryDate + ", createDate="
                 + createDate + ", price="
@@ -74,13 +85,25 @@ public class IceCream extends Food {
             return false;
         }
         IceCream iceCream = (IceCream) o;
-        return Double.compare(price, iceCream.price) == 0
-                && Double.compare(discount, iceCream.discount) == 0 && Objects.equals(name, iceCream.name)
-                && Objects.equals(expiryDate, iceCream.expiryDate) && Objects.equals(createDate, iceCream.createDate);
+        return id == iceCream.id && Double.compare(price, iceCream.price) == 0
+                && Double.compare(discount, iceCream.discount) == 0
+                && Objects.equals(name, iceCream.name)
+                && Objects.equals(expiryDate, iceCream.expiryDate)
+                && Objects.equals(createDate, iceCream.createDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, expiryDate, createDate, price, discount);
+        return Objects.hash(id, name, expiryDate, createDate, price, discount);
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }

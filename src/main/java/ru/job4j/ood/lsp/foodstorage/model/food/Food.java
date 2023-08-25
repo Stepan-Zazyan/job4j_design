@@ -3,11 +3,26 @@ package ru.job4j.ood.lsp.foodstorage.model.food;
 import java.time.LocalDate;
 
 public abstract class Food {
+    private int id;
     private String name;
     private LocalDate expiryDate;
     private LocalDate createDate;
     private double price;
     private double discount;
+
+    public Food() {
+
+    }
+
+    public Food(int id, String name, LocalDate expiryDate, LocalDate createDate, double price, double discount) {
+        this.id = id;
+        this.name = name;
+        this.expiryDate = expiryDate;
+        this.createDate = createDate;
+        this.price = price;
+        this.discount = discount;
+    }
+
 
     public void consume() {
         System.out.println("Потреблять пищу");
@@ -52,5 +67,13 @@ public abstract class Food {
 
     public void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -4,11 +4,21 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Milk extends Food {
+    private int id;
     private String name;
     private LocalDate expiryDate;
     private LocalDate createDate;
     private double price;
     private double discount;
+
+    public Milk(int id, String name, LocalDate expiryDate, LocalDate createDate, double price, double discount) {
+        this.id = id;
+        this.name = name;
+        this.expiryDate = expiryDate;
+        this.createDate = createDate;
+        this.price = price;
+        this.discount = discount;
+    }
 
     @Override
     public void consume() {
@@ -57,7 +67,8 @@ public class Milk extends Food {
 
     @Override
     public String toString() {
-        return "Milk{" + "name='"
+        return "Milk{" + "id='"
+                + id + "name='"
                 + name + '\'' + ", expiryDate="
                 + expiryDate + ", createDate="
                 + createDate + ", price="
@@ -74,13 +85,25 @@ public class Milk extends Food {
             return false;
         }
         Milk milk = (Milk) o;
-        return Double.compare(price, milk.price) == 0
-                && Double.compare(discount, milk.discount) == 0 && Objects.equals(name, milk.name)
-                && Objects.equals(expiryDate, milk.expiryDate) && Objects.equals(createDate, milk.createDate);
+        return id == milk.id && Double.compare(price, milk.price) == 0
+                && Double.compare(discount, milk.discount) == 0
+                && Objects.equals(name, milk.name)
+                && Objects.equals(expiryDate, milk.expiryDate)
+                && Objects.equals(createDate, milk.createDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, expiryDate, createDate, price, discount);
+        return Objects.hash(id, name, expiryDate, createDate, price, discount);
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }
