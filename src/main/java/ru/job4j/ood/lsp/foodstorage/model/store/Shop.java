@@ -43,4 +43,12 @@ public class Shop extends AbstractStore {
     public Collection<Food> findAll() {
         return storeShop.values();
     }
+
+    public Map<Integer, Food> getStoreShop() {
+        return storeShop;
+    }
+
+    public void setStoreShop(Map<Integer, Food> storeShop) {
+        this.storeShop = storeShop;
+    }
 }

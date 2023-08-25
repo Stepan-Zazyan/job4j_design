@@ -44,4 +44,7 @@ public class Warehouse extends AbstractStore {
         return storeWarehouse.values();
     }
 
+    public Map<Integer, Food> getStoreWarehouse() {
+        return storeWarehouse;
+    }
 }
