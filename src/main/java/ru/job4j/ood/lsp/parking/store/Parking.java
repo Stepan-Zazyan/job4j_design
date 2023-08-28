@@ -20,32 +20,52 @@ public class Parking implements ParkingPlace {
         this.limitTruck = limitTruck;
     }
 
+    /*
+     @Override
+        public Car parkCar(Car car) {
+            id++;
+            car.setId(id);
+            if (car.getClass().equals(Sedan.class)) {
+                if (limitSedan - car.getSize()  > 0) {
+                    limitSedan -= car.getSize();
+                } else {
+                    throw new IllegalArgumentException("No free space");
+                }
+            }
+            if (car.getClass().equals(Truck.class)) {
+                if (limitTruck - car.getSize()  > 0) {
+                    limitTruck -= car.getSize();
+                } else if (limitSedan + limitTruck - car.getSize() > 0) {
+                    placesTakenByTruckFromSedan = abs(limitTruck - car.getSize());
+                    limitTruck = 0;
+                    limitSedan -= placesTakenByTruckFromSedan;
+                } else {
+                    throw new IllegalArgumentException("No free space");
+                }
+            }
+           return parkingArea.putIfAbsent(car.getId(), car);
+        }*/
     @Override
     public Car parkCar(Car car) {
-        id++;
-        car.setId(id);
-        if (car.getClass().equals(Sedan.class)) {
-            if (limitSedan - car.getSize()  > 0) {
-                limitSedan -= car.getSize();
-            } else {
-                throw new IllegalArgumentException("No free space");
-            }
-        }
-        if (car.getClass().equals(Truck.class)) {
-            if (limitTruck - car.getSize()  > 0) {
-                limitTruck -= car.getSize();
-            } else if (limitSedan + limitTruck - car.getSize() > 0) {
-                placesTakenByTruckFromSedan = abs(limitTruck - car.getSize());
-                limitTruck = 0;
-                limitSedan -= placesTakenByTruckFromSedan;
-            } else {
-                throw new IllegalArgumentException("No free space");
-            }
-        }
-       return parkingArea.putIfAbsent(car.getId(), car);
+        return null;
     }
 
     @Override
+    public Car removeCar(Car car) {
+        return null;
+    }
+
+    @Override
+    public Optional<Car> findById(int id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Collection<Car> findAll() {
+        return null;
+    }
+
+    /*@Override
     public Car removeCar(Car car) {
         if (car.getClass().equals(Sedan.class)) {
             limitSedan += car.getSize();
@@ -64,8 +84,8 @@ public class Parking implements ParkingPlace {
         }
         return parkingArea.remove(car.getId());
     }
-
-    @Override
+*/
+/*    @Override
     public Optional<Car> findById(int id) {
         return Optional.ofNullable(parkingArea.get(id));
     }
@@ -73,7 +93,7 @@ public class Parking implements ParkingPlace {
     @Override
     public Collection<Car> findAll() {
         return parkingArea.values();
-    }
+    }*/
 
     public Map<Integer, Car> getParkingArea() {
         return parkingArea;

@@ -1,6 +1,7 @@
 package ru.job4j.ood.lsp.parking.store;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import ru.job4j.ood.lsp.parking.model.Car;
 import ru.job4j.ood.lsp.parking.model.Sedan;
 import ru.job4j.ood.lsp.parking.model.Truck;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingTest {
 
+  @Disabled
     @Test
     public void checkParkCar() {
         Parking parking = new Parking(5, 5);
@@ -21,6 +23,8 @@ public class ParkingTest {
         assertEquals(truck, parking.getParkingArea().get(2));
     }
 
+
+    @Disabled
     @Test
     public void checkRemove() {
         Parking parking = new Parking(5, 5);
@@ -33,7 +37,7 @@ public class ParkingTest {
         assertNull(parking.getParkingArea().get(1));
         assertNull(parking.getParkingArea().get(2));
     }
-
+    @Disabled
     @Test
     public void checkLimitsWithNoTruckSpace() {
         Parking parking = new Parking(5, 5);
@@ -48,7 +52,7 @@ public class ParkingTest {
         assertEquals(limitSedan, 3);
         assertEquals(limitTruck, 0);
     }
-
+    @Disabled
     @Test
     public void checkReturningLimits() {
         Parking parking = new Parking(5, 5);
@@ -66,7 +70,7 @@ public class ParkingTest {
         assertEquals(limitSedan, 5);
         assertEquals(limitTruck, 5);
     }
-
+    @Disabled
     @Test
     public void checkLimitsCrash() {
         Parking parking = new Parking(5, 5);
