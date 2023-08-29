@@ -12,10 +12,10 @@ public class ControlQuality {
     private final Shop shop = new Shop();
     private final Trash trash = new Trash();
 
-    public boolean distribute(Food food) {
+    public boolean distribute(Food food, LocalDate localDate) {
         boolean rsl = false;
         double liveDays = food.getExpiryDate().getDayOfMonth() - food.getCreateDate().getDayOfMonth();
-        double daysLeft = food.getExpiryDate().getDayOfMonth() - LocalDate.now().getDayOfMonth();
+        double daysLeft = food.getExpiryDate().getDayOfMonth() - localDate.getDayOfMonth();
         if (daysLeft < 0) {
             trash.add(food);
             shop.delete(food);
