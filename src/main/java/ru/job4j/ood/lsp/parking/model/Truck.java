@@ -11,6 +11,9 @@ public class Truck extends Car {
         this.size = size;
     }
 
+    public Truck() {
+    }
+
     public int getSize() {
         return size;
     }

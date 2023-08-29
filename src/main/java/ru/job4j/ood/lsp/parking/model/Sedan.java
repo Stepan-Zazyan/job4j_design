@@ -11,6 +11,9 @@ public class Sedan extends Car {
         this.size = 1;
     }
 
+    public Sedan() {
+    }
+
 
     public int getSize() {
         return size;

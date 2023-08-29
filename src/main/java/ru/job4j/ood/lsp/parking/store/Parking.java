@@ -20,6 +20,9 @@ public class Parking implements ParkingPlace {
         this.limitTruck = limitTruck;
     }
 
+    public Parking() {
+    }
+
     /*
      @Override
         public Car parkCar(Car car) {
@@ -47,7 +50,7 @@ public class Parking implements ParkingPlace {
         }*/
     @Override
     public Car parkCar(Car car) {
-        return null;
+        return car;
     }
 
     @Override
