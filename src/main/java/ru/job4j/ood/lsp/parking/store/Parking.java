@@ -20,10 +20,6 @@ public class Parking implements ParkingPlace {
         this.limitTruck = limitTruck;
     }
 
-    public Parking() {
-    }
-
-    /*
      @Override
         public Car parkCar(Car car) {
             id++;
@@ -47,28 +43,9 @@ public class Parking implements ParkingPlace {
                 }
             }
            return parkingArea.putIfAbsent(car.getId(), car);
-        }*/
-    @Override
-    public Car parkCar(Car car) {
-        return car;
-    }
+        }
 
     @Override
-    public Car removeCar(Car car) {
-        return null;
-    }
-
-    @Override
-    public Optional<Car> findById(int id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Collection<Car> findAll() {
-        return null;
-    }
-
-    /*@Override
     public Car removeCar(Car car) {
         if (car.getClass().equals(Sedan.class)) {
             limitSedan += car.getSize();
@@ -87,8 +64,8 @@ public class Parking implements ParkingPlace {
         }
         return parkingArea.remove(car.getId());
     }
-*/
-/*    @Override
+
+    @Override
     public Optional<Car> findById(int id) {
         return Optional.ofNullable(parkingArea.get(id));
     }
@@ -96,7 +73,7 @@ public class Parking implements ParkingPlace {
     @Override
     public Collection<Car> findAll() {
         return parkingArea.values();
-    }*/
+    }
 
     public Map<Integer, Car> getParkingArea() {
         return parkingArea;

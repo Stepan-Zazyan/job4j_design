@@ -1,7 +1,6 @@
 package ru.job4j.ood.lsp.parking.store;
 
 import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
 import ru.job4j.ood.lsp.parking.model.Car;
 import ru.job4j.ood.lsp.parking.model.Sedan;
 import ru.job4j.ood.lsp.parking.model.Truck;
@@ -11,24 +10,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingTest {
 
-    @Disabled
     @Test
     public void checkParkCar() {
-        Parking parking = new Parking();
-        Car sedan = new Sedan();
-        Car truck = new Truck();
+        Parking parking = new Parking(5, 5);
+        Car sedan = new Sedan(1);
+        Car truck = new Truck(2, 2);
         parking.parkCar(sedan);
         parking.parkCar(truck);
         assertEquals(sedan, parking.getParkingArea().get(1));
         assertEquals(truck, parking.getParkingArea().get(2));
     }
 
-    @Disabled
     @Test
     public void checkRemove() {
-        Parking parking = new Parking();
-        Car sedan = new Sedan();
-        Car truck = new Truck();
+        Parking parking = new Parking(5, 5);
+        Car sedan = new Sedan(1);
+        Car truck = new Truck(2, 2);
         parking.parkCar(sedan);
         parking.parkCar(truck);
         parking.removeCar(sedan);
@@ -37,13 +34,12 @@ public class ParkingTest {
         assertNull(parking.getParkingArea().get(2));
     }
 
-/*    @Disabled
     @Test
     public void checkLimitsWithNoTruckSpace() {
-        Parking parking = new Parking();
-        Car sedan = new Sedan();
-        Car truck = new Truck();
-        Car bigTruck = new Truck();
+        Parking parking = new Parking(5, 5);
+        Car sedan = new Sedan(1);
+        Car truck = new Truck(2, 3);
+        Car bigTruck = new Truck(3, 3);
         parking.parkCar(sedan);
         parking.parkCar(truck);
         parking.parkCar(bigTruck);
@@ -51,15 +47,14 @@ public class ParkingTest {
         int limitTruck = parking.getLimitTruck();
         assertEquals(limitSedan, 3);
         assertEquals(limitTruck, 0);
-    }*/
+    }
 
-    @Disabled
     @Test
     public void checkReturningLimits() {
         Parking parking = new Parking(5, 5);
-        Car sedan = new Sedan();
-        Car truck = new Truck();
-        Car bigTruck = new Truck();
+        Car sedan = new Sedan(1);
+        Car truck = new Truck(2, 3);
+        Car bigTruck = new Truck(3, 3);
         parking.parkCar(sedan);
         parking.parkCar(truck);
         parking.parkCar(bigTruck);
@@ -72,11 +67,10 @@ public class ParkingTest {
         assertEquals(limitTruck, 5);
     }
 
-    @Disabled
     @Test
     public void checkLimitsCrash() {
-        Parking parking = new Parking();
-        Car bigTruck = new Truck();
+        Parking parking = new Parking(5, 5);
+        Car bigTruck = new Truck(1, 11);
         assertThatThrownBy(() -> parking.parkCar(bigTruck))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("No free space");
