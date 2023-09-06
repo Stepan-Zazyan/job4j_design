@@ -1,6 +1,6 @@
-package ru.job4j.ood.lsp.foodstorage.model.store;
+package ru.job4j.ood.lsp.foodstorage.store;
 
-import ru.job4j.ood.lsp.foodstorage.model.food.Food;
+import ru.job4j.ood.lsp.foodstorage.food.Food;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,9 +18,7 @@ public class Shop extends AbstractStore {
 
     @Override
     public Food add(Food food) {
-        id++;
-        food.setId(id);
-        return storeShop.putIfAbsent(id, food);
+        return storeShop.putIfAbsent(food.getId(), food);
     }
 
     @Override

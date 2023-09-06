@@ -1,51 +1,51 @@
-package ru.job4j.ood.lsp.foodstorage.model.store;
+package ru.job4j.ood.lsp.foodstorage.store;
 
 import org.junit.jupiter.api.Test;
-import ru.job4j.ood.lsp.foodstorage.model.food.Cheese;
-import ru.job4j.ood.lsp.foodstorage.model.food.Food;
-import ru.job4j.ood.lsp.foodstorage.model.food.Milk;
+import ru.job4j.ood.lsp.foodstorage.food.Cheese;
+import ru.job4j.ood.lsp.foodstorage.food.Food;
+import ru.job4j.ood.lsp.foodstorage.food.Milk;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ShopTest {
+class WarehouseTest {
     @Test
     void checkAdd() {
-        Shop shop = new Shop();
+        Warehouse warehouse = new Warehouse();
         Food cheese = new Cheese(1, "Cheese",
                 LocalDate.of(2023, 8, 21),
                 LocalDate.of(2023, 8, 1),
                 100, 0);
-        shop.add(cheese);
-        assertEquals(cheese, shop.getStoreShop().get(1));
+        warehouse.add(cheese);
+        assertEquals(cheese, warehouse.getStoreWarehouse().get(1));
     }
 
     @Test
     void checkDelete() {
-        Shop shop = new Shop();
+        Store warehouse = new Warehouse();
         Food cheese = new Cheese(1, "Cheese",
                 LocalDate.of(2023, 8, 21),
                 LocalDate.of(2023, 8, 1),
                 100, 0);
-        shop.add(cheese);
-        assertTrue(shop.delete(cheese));
+        warehouse.add(cheese);
+        assertTrue(warehouse.delete(cheese));
     }
 
     @Test
     void checkFindById() {
-        Shop shop = new Shop();
+        Warehouse warehouse = new Warehouse();
         Food cheese = new Cheese(1, "Cheese",
                 LocalDate.of(2023, 8, 21),
                 LocalDate.of(2023, 8, 1),
                 100, 0);
-        shop.add(cheese);
-        assertEquals(cheese, shop.findById(1).get());
+        warehouse.add(cheese);
+        assertEquals(cheese, warehouse.findById(1).get());
     }
 
     @Test
     void checkFindAll() {
-        Shop shop = new Shop();
+        Warehouse warehouse = new Warehouse();
         Food cheese = new Cheese(1, "Cheese",
                 LocalDate.of(2023, 8, 21),
                 LocalDate.of(2023, 8, 1),
@@ -54,21 +54,21 @@ class ShopTest {
                 LocalDate.of(2023, 8, 21),
                 LocalDate.of(2023, 8, 1),
                 100, 0);
-        shop.add(cheese);
-        shop.add(milk);
-        assertEquals(shop.getStoreShop().values(), shop.findAll());
+        warehouse.add(cheese);
+        warehouse.add(milk);
+        assertEquals(warehouse.getStoreWarehouse().values(), warehouse.findAll());
     }
 
     @Test
     void checkUpdate() {
-        Shop shop = new Shop();
+        Warehouse warehouse = new Warehouse();
         Food cheese = new Cheese(1, "Cheese",
                 LocalDate.of(2023, 8, 21),
                 LocalDate.of(2023, 8, 1),
                 100, 0);
-        shop.add(cheese);
-        shop.update(cheese, 25);
-        assertEquals(25, shop.getStoreShop().get(1).getDiscount());
-        assertEquals(75, shop.getStoreShop().get(1).getPrice());
+        warehouse.add(cheese);
+        warehouse.update(cheese, 25);
+        assertEquals(25, warehouse.getStoreWarehouse().get(1).getDiscount());
+        assertEquals(75, warehouse.getStoreWarehouse().get(1).getPrice());
     }
 }

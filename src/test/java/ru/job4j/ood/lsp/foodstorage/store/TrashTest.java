@@ -1,9 +1,9 @@
-package ru.job4j.ood.lsp.foodstorage.model.store;
+package ru.job4j.ood.lsp.foodstorage.store;
 
 import org.junit.jupiter.api.Test;
-import ru.job4j.ood.lsp.foodstorage.model.food.Cheese;
-import ru.job4j.ood.lsp.foodstorage.model.food.Food;
-import ru.job4j.ood.lsp.foodstorage.model.food.Milk;
+import ru.job4j.ood.lsp.foodstorage.food.Cheese;
+import ru.job4j.ood.lsp.foodstorage.food.Food;
+import ru.job4j.ood.lsp.foodstorage.food.Milk;
 
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
