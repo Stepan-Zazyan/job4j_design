@@ -11,4 +11,9 @@ public class DownStoreService implements Store {
     public DownStoreService(Store store) {
         this.store = store;
     }
+
+    @Override
+    public void method() {
+        System.out.println("Я наследую метод для приличия");
+    }
 }
