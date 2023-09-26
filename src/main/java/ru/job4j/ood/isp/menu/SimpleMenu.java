@@ -8,16 +8,19 @@ public class SimpleMenu implements Menu {
 
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
-        boolean rsl = false;
-        Optional<ItemInfo> parent = findItem(parentName);
-        if (parent.isPresent()) {
-            parent.get().getMenuItem().getChildren().add(new SimpleMenuItem(childName, actionDelegate));
-            rsl = true;
-        } else {
+        if (Objects.equals(childName, "")) {
             rootElements.add(new SimpleMenuItem(parentName, actionDelegate));
-            rsl = true;
+        } else {
+            Optional<ItemInfo> parent = findItem(parentName);
+            if (parentName.isEmpty()) {
+                return false;
+            }
+            MenuItem men = parent.get().getMenuItem();
+            String menuItem = parent.get().getMenuItem().getName();
+            List<MenuItem> listChildren = parent.get().getMenuItem().getChildren();
+            parent.get().getMenuItem().getChildren().add(new SimpleMenuItem(childName, actionDelegate));
         }
-        return rsl;
+        return true;
     }
 
     @Override
@@ -31,19 +34,23 @@ public class SimpleMenu implements Menu {
     public Iterator<MenuItemInfo> iterator() {
         DFSIterator dfsIterator = new DFSIterator();
         return new Iterator<MenuItemInfo>() {
+            int index = 0;
+
             @Override
             public boolean hasNext() {
                 if (!dfsIterator.hasNext()) {
                     throw new ConcurrentModificationException();
                 }
-                return true;
+                return index < rootElements.size();
             }
+
             @Override
             public MenuItemInfo next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 ItemInfo itemInfo = dfsIterator.next();
+                index++;
                 return new MenuItemInfo(itemInfo.getMenuItem(), itemInfo.getNumber());
             }
         };
@@ -55,6 +62,14 @@ public class SimpleMenu implements Menu {
             if (x.getName().equals(name)) {
                 itemInfo.setNumber(x.getName());
                 itemInfo.setMenuItem(x);
+            }
+            if (!x.getChildren().isEmpty()) {
+                for (MenuItem i : x.getChildren()) {
+                    if (i.getName().equals(name)) {
+                        itemInfo.setNumber(i.getName());
+                        itemInfo.setMenuItem(i);
+                    }
+                }
             }
         }
         return Optional.of(itemInfo);
@@ -115,7 +130,7 @@ public class SimpleMenu implements Menu {
             String lastNumber = numbers.removeFirst();
             List<MenuItem> children = current.getChildren();
             int currentNumber = children.size();
-            for (var i = children.listIterator(children.size()); i.hasPrevious();) {
+            for (var i = children.listIterator(children.size()); i.hasPrevious(); ) {
                 stack.addFirst(i.previous());
                 numbers.addFirst(lastNumber.concat(String.valueOf(currentNumber--)).concat("."));
             }

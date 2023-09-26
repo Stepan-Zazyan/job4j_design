@@ -20,24 +20,29 @@ public class TodoApp {
         System.out.println(menu);
         SimpleMenu simpleMenu = new SimpleMenu();
         Scanner scanner = new Scanner(System.in);
-        int a = scanner.nextInt();
+        int a = 4;
         String str = "";
-        if (a == 1) {
-            System.out.println("Введите элемент");
-            str = scanner.nextLine();
-            simpleMenu.add(str, str, () -> System.out.println("Something"));
-        }
-        if (a == 2) {
-            System.out.println("Введите элемент");
-            str = scanner.nextLine();
-            simpleMenu.add(str, str, () -> System.out.println("Something"));
-        }
-        if (a == 3) {
-            System.out.println("Введите действие");
-           defaultAction.delegate();
-        }
-        if (a != 1 && a != 2 && a != 3) {
-            System.out.println(menu);
+        while (a == 1 || a == 2 || a == 3 || a == 4) {
+            a = scanner.nextInt();
+            if (a == 1) {
+                System.out.println("Введите элемент");
+                str = scanner.next();
+                simpleMenu.add(str, "", () -> System.out.println("Something"));
+            }
+            if (a == 2) {
+                System.out.println("Введите родительский элемент");
+                String strParent = scanner.next();
+                System.out.println("Введите дочерний элемент");
+                String strChild = scanner.next();
+                simpleMenu.add(strParent, strChild, () -> System.out.println("Something"));
+            }
+            if (a == 3) {
+                System.out.println("Введите действие");
+                defaultAction.delegate();
+            }
+            if (a == 4) {
+                new SimpleMenuPrinter().print(simpleMenu);
+            }
         }
     }
 }
